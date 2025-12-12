@@ -59,6 +59,91 @@ class Timesheet extends MY_Controller
 		}
 	}
 
+	// attendance list > dashboard
+	public function dashboard_attendance_list()
+	{
+		$session = $this->session->userdata('username');
+		if (empty($session)) {
+			redirect('');
+		}
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+
+		$attendance_date = $this->input->get("attendance_date");
+
+		$attendance = $this->Timesheet_model->get_attendance_by_date($attendance_date);
+
+		$data = array();
+
+		foreach ($attendance->result() as $r) {
+
+			// get user > employee_
+			$employee = $this->Xin_model->read_user_info($r->employee_id);
+			// employee full name
+			if (!is_null($employee)) {
+				$employee_name = $employee[0]->first_name . ' ' . $employee[0]->last_name;
+			} else {
+				$employee_name = '--';
+			}
+			// get attendance date
+			$attendance_date = $this->Xin_model->set_date_format($r->attendance_date);
+			// get clock in
+			$clock_in = new DateTime($r->clock_in);
+			$cin = $clock_in->format('h:i a');
+			// get clock out
+			if ($r->clock_out == '') {
+				$cout = '--';
+			} else {
+				$clock_out = new DateTime($r->clock_out);
+				$cout = $clock_out->format('h:i a');
+			}
+			// total work
+			if ($r->total_work == '') {
+				$total_work = '--';
+			} else {
+				$total_work = $r->total_work;
+			}
+			// total rest
+			if ($r->total_rest == '') {
+				$total_rest = '--';
+			} else {
+				$total_rest = $r->total_rest;
+			}
+
+			// status
+			if ($r->attendance_status == 'Present') {
+				$status = '<span class="tag tag-success">' . $this->lang->line('xin_present') . '</span>';
+			} else if ($r->attendance_status == 'Absent') {
+				$status = '<span class="tag tag-danger">' . $this->lang->line('xin_absent') . '</span>';
+			} else {
+				$status = '<span class="tag tag-warning">' . $this->lang->line('xin_holiday') . '</span>';
+			}
+
+			$data[] = array(
+				$status,
+				$employee_name,
+				$cin,
+				$cout,
+				$r->time_late,
+				$r->early_leaving,
+				$r->overtime,
+				$total_work,
+				$total_rest
+			);
+		}
+
+		$output = array(
+			"draw" => $draw,
+			"recordsTotal" => $attendance->num_rows(),
+			"recordsFiltered" => $attendance->num_rows(),
+			"data" => $data
+		);
+		echo json_encode($output);
+		exit();
+	}
+
 	// date wise date_wise_attendance > timesheet
 	public function date_wise_attendance()
 	{
@@ -2756,8 +2841,8 @@ class Timesheet extends MY_Controller
 			} else if ($this->input->post('clock_in') === '') {
 				$Return['error'] = $this->lang->line('xin_error_attendance_in_time');
 			} /*else if($this->input->post('clock_out')==='') {
-			   $Return['error'] = "The office Out Time field is required.";
-		   }*/
+			 $Return['error'] = "The office Out Time field is required.";
+		 }*/
 
 			if ($Return['error'] != '') {
 				$this->output($Return);

@@ -35,77 +35,71 @@
 <body class="auth-bg">
     <div class="auth">
         <div class="auth-header">
-            <nav class="navbar">
-                <div class="navbar-right navbar-toggleable-sm collapse" id="collapse-1">
-                    <ul class="nav navbar-nav float-md-right">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false"> <img
-                                    src="<?php echo base_url() ?>skin/img/flags/<?php echo $this->Xin_model->get_selected_language_flag($lang); ?>"
-                                    alt="<?php echo $this->Xin_model->get_selected_language_name($lang); ?>">
-                                <?php echo $this->Xin_model->get_selected_language_name($lang); ?></a>
-                            <div
-                                class="dropdown-menu dropdown-menu-right animated <?php echo $system[0]->animation_effect_topmenu; ?>">
-                                <a class="dropdown-item"
-                                    href="<?php echo site_url('dashboard/set_language/chineese') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/cn.gif" alt="Chinese"> Chinese
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/danish') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/dk.gif" alt="Danish"> Danish
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/english') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/en.gif" alt="English"> English
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/french') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/fr.gif" alt="French"> French
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/german') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/de.gif" alt="German"> German
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/greek') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/gr.gif" alt="Greek"> Greek
-                                </a>
-                                <a class="dropdown-item"
-                                    href="<?php echo site_url('dashboard/set_language/indonesian') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/id.gif" alt="Indonesian"> Indonesian
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/italian') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/ie.gif" alt="Italian"> Italian
-                                </a>
-                                <a class="dropdown-item"
-                                    href="<?php echo site_url('dashboard/set_language/japanese') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/jp.gif" alt="Japanese"> Japanese
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/polish') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/pl.gif" alt="Polish"> Polish
-                                </a>
-                                <a class="dropdown-item"
-                                    href="<?php echo site_url('dashboard/set_language/portuguese') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/pt.gif" alt="Portuguese"> Portuguese
-                                </a>
-                                <a class="dropdown-item"
-                                    href="<?php echo site_url('dashboard/set_language/romanian') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/ro.gif" alt="Romanian"> Romanian
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/russian') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/ru.gif" alt="Spanish"> Russian
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/spanish') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/es.gif" alt="Spanish"> Spanish
-                                </a>
-                                <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/turkish') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/tr.gif" alt="Spanish"> Turkish
-                                </a>
-                                <a class="dropdown-item"
-                                    href="<?php echo site_url('dashboard/set_language/vietnamese') ?>">
-                                    <img src="<?php echo base_url() ?>skin/img/flags/vn.gif" alt="Vietnamese"> Vietnamese
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+            <div class="navbar-right navbar-toggleable-sm collapse" id="collapse-1">
+                <ul class="nav navbar-nav float-md-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false"> <img
+                                src="<?php echo base_url() ?>skin/img/flags/<?php echo $this->Xin_model->get_selected_language_flag($lang); ?>"
+                                alt="<?php echo $this->Xin_model->get_selected_language_name($lang); ?>">
+                            <?php echo $this->Xin_model->get_selected_language_name($lang); ?></a>
+                        <div
+                            class="dropdown-menu dropdown-menu-right animated <?php echo $system[0]->animation_effect_topmenu; ?>">
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/chineese') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/cn.gif" alt="Chinese"> Chinese
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/danish') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/dk.gif" alt="Danish"> Danish
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/english') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/en.gif" alt="English"> English
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/french') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/fr.gif" alt="French"> French
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/german') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/de.gif" alt="German"> German
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/greek') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/gr.gif" alt="Greek"> Greek
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/indonesian') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/id.gif" alt="Indonesian"> Indonesian
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/italian') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/ie.gif" alt="Italian"> Italian
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/japanese') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/jp.gif" alt="Japanese"> Japanese
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/polish') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/pl.gif" alt="Polish"> Polish
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/portuguese') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/pt.gif" alt="Portuguese"> Portuguese
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/romanian') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/ro.gif" alt="Romanian"> Romanian
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/russian') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/ru.gif" alt="Spanish"> Russian
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/spanish') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/es.gif" alt="Spanish"> Spanish
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/turkish') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/tr.gif" alt="Spanish"> Turkish
+                            </a>
+                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/vietnamese') ?>">
+                                <img src="<?php echo base_url() ?>skin/img/flags/vn.gif" alt="Vietnamese"> Vietnamese
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
             </nav>
             <div class="mb-2"><img
-                    src="<?php echo base_url(); ?>uploads/logo/signin/<?php echo $company[0]->sign_in_logo; ?>" title="">
+                    src="<?php echo base_url(); ?>uploads/logo/signin/<?php echo $company[0]->sign_in_logo; ?>"
+                    title="">
             </div>
             <h6><?php echo $this->lang->line('xin_welcome_login_page_text'); ?> </h6>
         </div>
@@ -180,7 +174,26 @@
         </div>
     </div>
     <!-- Vendor JS -->
-    <script type="text/javascript" src="<?php echo base_url(); ?>skin/js_module/xin_login.js"></script>
+    <script type="text/javascript"
+        src="<?php echo base_url(); ?>skin/vendor/jquery/jquery-3.2.1.min.js?v=<?php echo time(); ?>"></script>
+    <script type="text/javascript"
+        src="<?php echo base_url(); ?>skin/vendor/tether/js/tether.min.js?v=<?php echo time(); ?>"></script>
+    <script type="text/javascript"
+        src="<?php echo base_url(); ?>skin/vendor/bootstrap/js/bootstrap.min.js?v=<?php echo time(); ?>"></script>
+    <script type="text/javascript"
+        src="<?php echo base_url(); ?>skin/vendor/toastr/toastr.min.js?v=<?php echo time(); ?>"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.options.closeButton = "<?php echo $system[0]->notification_close_btn; ?>";
+            toastr.options.progressBar = "<?php echo $system[0]->notification_bar; ?>";
+            toastr.options.timeOut = 3000;
+            toastr.options.preventDuplicates = true;
+            toastr.options.positionClass = "<?php echo $system[0]->notification_position; ?>";
+        });
+    </script>
+    <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script>
+    <script type="text/javascript"
+        src="<?php echo base_url(); ?>skin/js_module/xin_login.js?v=<?php echo time(); ?>"></script>
 </body>
 
 </html>

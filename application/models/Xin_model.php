@@ -301,7 +301,7 @@ class xin_model extends CI_Model {
 			$sc_show = $ar_sc[0];
 		} else {
 			$ar_sc = explode('- ',$system_setting[0]->default_currency_symbol);
-			$sc_show = $ar_sc[1];
+			if(isset($ar_sc[1])){ $sc_show = $ar_sc[1]; } else { $sc_show = $ar_sc[0]; }
 		}
 		if($system_setting[0]->currency_position=='Prefix'){
 			$sign_value = $sc_show.''.$number;

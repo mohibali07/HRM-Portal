@@ -39,10 +39,15 @@ class Profile extends MY_Controller {
 		$result = $this->Employees_model->read_employee_information($session['user_id']);
 		// get designation
 		$designation = $this->Designation_model->read_designation_information($result[0]->designation_id);
+		if(!is_null($designation)){
+			$designation_name = $designation[0]->designation_name;
+		} else {
+			$designation_name = '--';
+		}
 		$data = array(
 			'first_name' => $result[0]->first_name,
 			'last_name' => $result[0]->last_name,
-			'designation' => $designation[0]->designation_name,
+			'designation' => $designation_name,
 			'user_id' => $result[0]->user_id,
 			'employee_id' => $result[0]->employee_id,
 			'username' => $result[0]->username,

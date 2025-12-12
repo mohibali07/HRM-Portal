@@ -2,10 +2,12 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Forgot_password extends MY_Controller {
+class Forgot_password extends MY_Controller
+{
 
-	public function __construct() {
-        Parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 		$this->load->library('session');
 		$this->load->helper('form');
 		$this->load->helper('url');
@@ -21,41 +23,42 @@ class Forgot_password extends MY_Controller {
 		$this->load->model("Department_model");
 		$this->load->model("Location_model");
 	}
-	
+
 	/*Function to set JSON output*/
-	public function output($Return=array()){
+	public function output($Return = array())
+	{
 		/*Set response header*/
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json; charset=UTF-8");
 		/*Final JSON response*/
 		exit(json_encode($Return));
 	}
-	
+
 	public function index()
 	{
 		$data['title'] = 'HR Software';
 		$this->load->view('user/forgot_password', $data);
 	}
-	
+
 	public function send_mail()
 	{
 		$data['title'] = 'HR Software';
-		
+
 		/* Define return | here result is used to return user data and error for error message */
-		$Return = array('result'=>'', 'error'=>'');
+		$Return = array('result' => '', 'error' => '');
 		/* Server side PHP input validation */
-		if($this->input->post('iemail')==='') {
+		if ($this->input->post('iemail') === '') {
 			$Return['error'] = $this->lang->line('xin_error_enter_email_address');
 		} else if (!filter_var($this->input->post('iemail'), FILTER_VALIDATE_EMAIL)) {
 			$Return['error'] = $this->lang->line('xin_employee_error_invalid_email');
 		}
-		
-		if($Return['error']!=''){
+
+		if ($Return['error'] != '') {
 			$this->output($Return);
 		}
-		
-		if($this->input->post('iemail')) {
-	
+
+		if ($this->input->post('iemail')) {
+
 			$this->email->set_mailtype("html");
 			//get company info
 			$cinfo = $this->Xin_model->read_company_setting_info(1);
@@ -63,28 +66,36 @@ class Forgot_password extends MY_Controller {
 			$template = $this->Xin_model->read_email_template(2);
 			//get employee info
 			$query = $this->Xin_model->read_user_info_byemail($this->input->post('iemail'));
-			
+
 			$user = $query->num_rows();
-			if($user > 0) {
-				
+			if ($user > 0) {
+
 				$user_info = $query->result();
-				$full_name = $user_info[0]->first_name.' '.$user_info[0]->last_name;
-				
-				$subject = $template[0]->subject.' - '.$cinfo[0]->company_name;
-				$logo = base_url().'uploads/logo/'.$cinfo[0]->logo;
+				$full_name = $user_info[0]->first_name . ' ' . $user_info[0]->last_name;
+
+				// Generate new random password
+				$new_password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
+				$hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
+
+				// Update password in database
+				$data = array('password' => $hashed_password);
+				$this->Employees_model->change_password($data, $user_info[0]->user_id);
+
+				$subject = $template[0]->subject . ' - ' . $cinfo[0]->company_name;
+				$logo = base_url() . 'uploads/logo/' . $cinfo[0]->logo;
 				//$cid = $this->email->attachment_cid($logo);
-				
+
 				$message = '
 					<div style="background:#f6f6f6;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;margin:0;padding:0;padding: 20px;">
-					<img src="'.$logo.'" title="'.$cinfo[0]->company_name.'"><br>'.str_replace(array("{var site_name}","{var username}","{var email}","{var password}"),array($cinfo[0]->company_name,$user_info[0]->username,$user_info[0]->email,$user_info[0]->password),htmlspecialchars_decode(stripslashes($template[0]->message))).'</div>';
-				
+					<img src="' . $logo . '" title="' . $cinfo[0]->company_name . '"><br>' . str_replace(array("{var site_name}", "{var username}", "{var email}", "{var password}"), array($cinfo[0]->company_name, $user_info[0]->username, $user_info[0]->email, $new_password), htmlspecialchars_decode(stripslashes($template[0]->message))) . '</div>';
+
 				$this->email->from($cinfo[0]->email, $cinfo[0]->company_name);
 				$this->email->to($this->input->post('iemail'));
-				
+
 				$this->email->subject($subject);
 				$this->email->message($message);
 				$this->email->send();
-			
+
 				$Return['result'] = $this->lang->line('xin_success_sent_forgot_password');
 			} else {
 				/* Unsuccessful attempt: Set error message */

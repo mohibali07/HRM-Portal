@@ -8,20 +8,19 @@ class login_model extends CI_Model
 		parent::__construct();
 	}
 
-	// Read data using username and password
-	public function login($data)
+	// Read data using username
+	public function login($username)
 	{
 
 		$this->db->select('*');
 		$this->db->from('xin_employees');
-		$this->db->where('username', $data['username']);
-		$this->db->where('password', $data['password']);
+		$this->db->where('username', $username);
 		$this->db->where('is_active', '1');
 		$this->db->limit(1);
 		$query = $this->db->get();
 
 		if ($query->num_rows() == 1) {
-			return true;
+			return $query->result();
 		} else {
 			return false;
 		}

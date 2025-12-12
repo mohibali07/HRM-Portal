@@ -742,7 +742,7 @@ class Employees extends MY_Controller
 				'username' => $this->input->post('username'),
 				'company_id' => $this->input->post('company_id'),
 				'email' => $this->input->post('email'),
-				'password' => $this->input->post('password'),
+				'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 				'date_of_birth' => $this->input->post('date_of_birth'),
 				'gender' => $this->input->post('gender'),
 				'user_role_id' => $this->input->post('role'),
@@ -1358,6 +1358,7 @@ class Employees extends MY_Controller
 		if ($this->input->post('type') == 'e_immigration_info' && $this->input->post('data') == 'e_immigration_info') {
 			/* Define return | here result is used to return user data and error for error message */
 			$Return = array('result' => '', 'error' => '');
+			$result = FALSE;
 
 			/* Server side PHP input validation */
 			if ($this->input->post('document_type_id') === '') {
@@ -1430,6 +1431,7 @@ class Employees extends MY_Controller
 
 			if ($Return['error'] != '') {
 				$this->output($Return);
+				exit;
 			}
 
 			if ($result == TRUE) {
@@ -1551,6 +1553,7 @@ class Employees extends MY_Controller
 
 			if ($Return['error'] != '') {
 				$this->output($Return);
+				exit;
 			}
 
 			$data = array(
@@ -1601,6 +1604,7 @@ class Employees extends MY_Controller
 
 			if ($Return['error'] != '') {
 				$this->output($Return);
+				exit;
 			}
 
 			$data = array(
@@ -2118,7 +2122,7 @@ class Employees extends MY_Controller
 			}
 
 			$data = array(
-				'password' => $this->input->post('new_password')
+				'password' => password_hash($this->input->post('new_password'), PASSWORD_BCRYPT)
 			);
 			$id = $this->input->post('user_id');
 			$result = $this->Employees_model->change_password($data, $id);

@@ -1395,7 +1395,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 	
 		$data = array(
 		'payer_name' => $this->input->post('payer_name'),
@@ -1428,7 +1429,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 	
 		$data = array(
 		'payee_name' => $this->input->post('payee_name'),
@@ -1461,7 +1463,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 	
 		$data = array(
 		'payer_name' => $this->input->post('payer_name'),
@@ -1493,7 +1496,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 	
 		$data = array(
 		'payee_name' => $this->input->post('payee_name'),
@@ -1555,7 +1559,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 		
 		$data = array(
 		'account_type_id' => $this->input->post('bank_cash_id'),
@@ -1650,7 +1655,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 		
 		$data = array(
 		'account_type_id' => $this->input->post('bank_cash_id'),
@@ -1726,7 +1732,8 @@ class Accounting extends MY_Controller
 						
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 		
 		$from_account_id = $this->Finance_model->read_bankcash_information($this->input->post('from_bank_cash_id'));
 		$frm_acc = $from_account_id[0]->account_balance - $this->input->post('amount');
@@ -1814,7 +1821,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 	
 		$data = array(
 		'account_name' => $this->input->post('account_name'),
@@ -1908,7 +1916,8 @@ class Accounting extends MY_Controller
 		
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 	
 		
 		if ($result == TRUE) {
@@ -1995,7 +2004,8 @@ class Accounting extends MY_Controller
 		
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 		
 		if ($result == TRUE) {
 			$Return['result'] = $this->lang->line('xin_acc_success_expense_updated');
@@ -2026,7 +2036,8 @@ class Accounting extends MY_Controller
 						
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 		
 		$data = array(
 		'transfer_date' => $this->input->post('transfer_date'),
@@ -2069,7 +2080,8 @@ class Accounting extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 	
 		$data = array(
 		'account_name' => $this->input->post('account_name'),

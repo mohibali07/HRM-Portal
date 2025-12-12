@@ -144,7 +144,8 @@ class Files extends MY_Controller
 							
 			if($Return['error']!=''){
 				$this->output($Return);
-			}
+			
+			exit;}
 		}
 	}
 	
@@ -244,7 +245,8 @@ class Files extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 		
 		$fname = $this->input->post('file_name').'.'.$this->input->post('ext_name');
 		$directory = "uploads/files/";
@@ -286,7 +288,8 @@ class Files extends MY_Controller
 				
 		if($Return['error']!=''){
        		$this->output($Return);
-    	}
+    	
+			exit;}
 						
 		$data = array(
 		'maximum_file_size' => $this->input->post('maximum_file_size'),

@@ -1,7 +1,7 @@
 <?php $system = $this->Xin_model->read_setting_info(1); ?>
 <?php $company = $this->Xin_model->read_company_setting_info(1); ?>
-<?php $site_lang = $this->load->helper('language'); ?>
-<?php $lang = $site_lang->session->userdata('site_lang'); ?>
+<?php $this->load->helper('language'); ?>
+<?php $lang = $this->session->userdata('site_lang'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,65 +38,112 @@
             <div class="navbar-right navbar-toggleable-sm collapse" id="collapse-1">
                 <ul class="nav navbar-nav float-md-right">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false"> <img
-                                src="<?php echo base_url() ?>skin/img/flags/<?php echo $this->Xin_model->get_selected_language_flag($lang); ?>"
-                                alt="<?php echo $this->Xin_model->get_selected_language_name($lang); ?>">
-                            <?php echo $this->Xin_model->get_selected_language_name($lang); ?></a>
-                        <div
-                            class="dropdown-menu dropdown-menu-right animated <?php echo $system[0]->animation_effect_topmenu; ?>">
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/chineese') ?>">
-                                <img src="<?php echo base_url() ?>skin/img/flags/cn.gif" alt="Chinese"> Chinese
-                            </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/danish') ?>">
-                                <img src="<?php echo base_url() ?>skin/img/flags/dk.gif" alt="Danish"> Danish
-                            </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/english') ?>">
+                        <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false">
+                            <img src="<?php echo base_url() ?>skin/img/flags/en.gif" alt="English" id="current_lang_flag">
+                            <span id="current_lang_name">English</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right animated <?php echo $system[0]->animation_effect_topmenu; ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('en');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/en.gif" alt="English"> English
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/french') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('zh-CN');">
+                                <img src="<?php echo base_url() ?>skin/img/flags/cn.gif" alt="Chinese"> Chinese
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('da');">
+                                <img src="<?php echo base_url() ?>skin/img/flags/dk.gif" alt="Danish"> Danish
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('fr');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/fr.gif" alt="French"> French
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/german') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('de');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/de.gif" alt="German"> German
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/greek') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('el');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/gr.gif" alt="Greek"> Greek
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/indonesian') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('id');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/id.gif" alt="Indonesian"> Indonesian
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/italian') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('it');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/ie.gif" alt="Italian"> Italian
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/japanese') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('ja');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/jp.gif" alt="Japanese"> Japanese
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/polish') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('pl');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/pl.gif" alt="Polish"> Polish
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/portuguese') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('pt');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/pt.gif" alt="Portuguese"> Portuguese
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/romanian') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('ro');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/ro.gif" alt="Romanian"> Romanian
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/russian') ?>">
-                                <img src="<?php echo base_url() ?>skin/img/flags/ru.gif" alt="Spanish"> Russian
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('ru');">
+                                <img src="<?php echo base_url() ?>skin/img/flags/ru.gif" alt="Russian"> Russian
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/spanish') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('es');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/es.gif" alt="Spanish"> Spanish
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/turkish') ?>">
-                                <img src="<?php echo base_url() ?>skin/img/flags/tr.gif" alt="Spanish"> Turkish
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('tr');">
+                                <img src="<?php echo base_url() ?>skin/img/flags/tr.gif" alt="Turkish"> Turkish
                             </a>
-                            <a class="dropdown-item" href="<?php echo site_url('dashboard/set_language/vietnamese') ?>">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="triggerHtmlEvent('vi');">
                                 <img src="<?php echo base_url() ?>skin/img/flags/vn.gif" alt="Vietnamese"> Vietnamese
                             </a>
                         </div>
                     </li>
                 </ul>
             </div>
-            </nav>
+
+            <!-- Hidden Google Translate Element -->
+            <div id="google_translate_element" style="display:none;"></div>
+
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'en',
+                        autoDisplay: false
+                    }, 'google_translate_element');
+                }
+
+                function triggerHtmlEvent(langCode) {
+                    document.cookie = "googtrans=/en/" + langCode + "; path=/";
+                    window.location.reload();
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    var langMap = {
+                        'en': {name: 'English', flag: 'en.gif'},
+                        'zh-CN': {name: 'Chinese', flag: 'cn.gif'},
+                        'da': {name: 'Danish', flag: 'dk.gif'},
+                        'fr': {name: 'French', flag: 'fr.gif'},
+                        'de': {name: 'German', flag: 'de.gif'},
+                        'el': {name: 'Greek', flag: 'gr.gif'},
+                        'id': {name: 'Indonesian', flag: 'id.gif'},
+                        'it': {name: 'Italian', flag: 'ie.gif'},
+                        'ja': {name: 'Japanese', flag: 'jp.gif'},
+                        'pl': {name: 'Polish', flag: 'pl.gif'},
+                        'pt': {name: 'Portuguese', flag: 'pt.gif'},
+                        'ro': {name: 'Romanian', flag: 'ro.gif'},
+                        'ru': {name: 'Russian', flag: 'ru.gif'},
+                        'es': {name: 'Spanish', flag: 'es.gif'},
+                        'tr': {name: 'Turkish', flag: 'tr.gif'},
+                        'vi': {name: 'Vietnamese', flag: 'vn.gif'}
+                    };
+
+                    var match = document.cookie.match(new RegExp('(^| )googtrans=([^;]+)'));
+                    if (match) {
+                        var lang = match[2].split('/')[2];
+                        if (langMap[lang]) {
+                            document.getElementById('current_lang_flag').src = '<?php echo base_url() ?>skin/img/flags/' + langMap[lang].flag;
+                            document.getElementById('current_lang_name').innerText = langMap[lang].name;
+                        }
+                    }
+                });
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
             <div class="mb-2"><img
                     src="<?php echo base_url(); ?>uploads/logo/signin/<?php echo $company[0]->sign_in_logo; ?>"
                     title="">
@@ -122,7 +169,9 @@
                             <div class="input-group">
                                 <input type="password" class="form-control" name="ipassword" id="ipassword"
                                     placeholder="Password">
-                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                <div class="input-group-addon" id="toggle_password" style="cursor: pointer;">
+                                    <i class="fa fa-eye-slash" id="eye_icon"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group clearfix">
@@ -136,24 +185,7 @@
                                 class="btn btn-danger btn-block"><?php echo $this->lang->line('xin_sign_in_button'); ?></button>
                         </div>
                     </form>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <button type="button" data-username="raviramsen" data-email="admin@testemail.com"
-                                data-password="testpassword"
-                                class="btn btn-block btn-success label-left login-as mb-0-25">
-                                <span class="btn-label"><i class="ti-user"></i></span>
-                                <?php echo $this->lang->line('xin_admin_text'); ?>
-                            </button>
-                        </div>
-                        <div class="col-xs-6">
-                            <button type="button" class="btn bg-warning btn-block label-left mb-0-25 login-as"
-                                data-username="williamanderson" data-email="williamanderson@testemail.com"
-                                data-password="testpassword">
-                                <span class="btn-label"><i class="fa fa-users"></i></span>
-                                <?php echo $this->lang->line('dashboard_single_employee'); ?>
-                            </button>
-                        </div>
-                    </div>
+
                     <!--div class="row">
                     <div class="col-md-12 mb-1 mb-md-0" style="margin-top:20px;">
                         <div class="alert alert-danger alert-dismissible fade in" role="alert">

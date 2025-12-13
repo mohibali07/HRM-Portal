@@ -1,5 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-	
+<?php if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
 // Dashboard
 $lang['dashboard_title'] = 'Dashboard';
 $lang['dashboard_main'] = 'Main';
@@ -598,7 +599,7 @@ $lang['xin_e_details_lnkdin'] = "LinkedIn";
 $lang['xin_e_details_blgr'] = "Blogger";
 
 $lang['xin_role_urole'] = 'User Roles';
-$lang['xin_role_all_menu'] = 'All Menu Access'; 
+$lang['xin_role_all_menu'] = 'All Menu Access';
 $lang['xin_role_cmenu'] = 'Custom Menu Access';
 $lang['xin_role_set'] = "Set New";
 $lang['xin_roles'] = "Roles";
@@ -1477,7 +1478,7 @@ $lang['xin_error_email_addres_not_exist'] = 'Email address does not exist.';
 $lang['xin_error_enter_email_address'] = 'Please enter your email.';
 $lang['xin_success_logged_in'] = 'Logged In Successfully.';
 $lang['xin_error_invalid_credentials'] = 'Invalid Login Credential.';
-$lang['xin_welcome_login_page_text'] = 'Welcome! Sign in to access the admin panel';
+$lang['xin_welcome_login_page_text'] = 'Bienvenue! Connectez-vous pour accéder au panneau d\'administration';
 $lang['xin_forgot_password_link'] = 'Forgot password?';
 $lang['xin_sign_in_button'] = 'Sign in';
 $lang['xin_admin_text'] = 'Admin';

@@ -94,9 +94,7 @@ class Employees extends MY_Controller
 
 		$data['title'] = $this->Xin_model->site_title();
 		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view("employees/employees_list", $data);
-		} else {
+		if (empty($session)) {
 			redirect('');
 		}
 		// Datatables Variables

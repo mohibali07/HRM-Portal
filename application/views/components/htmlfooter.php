@@ -147,7 +147,7 @@
   <link rel="stylesheet" href="<?php echo base_url(); ?>skin/vendor/morris/morris.css">
   <script type="text/javascript" src="<?php echo base_url(); ?>skin/vendor/chartjs/Chart.bundle.min.js"></script>
 <?php } ?>
-<script type="text/javascript" src="<?php echo base_url(); ?>skin/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>skin/vendor/jquery/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>skin/vendor/tether/js/tether.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>skin/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript"

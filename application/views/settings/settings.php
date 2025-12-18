@@ -313,22 +313,22 @@
             <label for="company_name"><?php echo $this->lang->line('xin_date_format'); ?></label>
             <br>
             <label class="custom-control custom-radio">
-              <input id="date_format" name="date_format" type="radio" class="custom-control-input" value="d-m-Y" <?php if ($date_format_xi == 'd-m-Y') { ?> checked <?php } ?>>
+              <input id="date_format_dmy" name="date_format" type="radio" class="custom-control-input" value="d-m-Y" <?php if ($date_format_xi == 'd-m-Y') { ?> checked <?php } ?>>
               <span class="custom-control-indicator"></span> <span class="custom-control-description">dd-mm-YYYY
                 (<?php echo date('d-m-Y'); ?>)</span> </label>
             <br>
             <label class="custom-control custom-radio">
-              <input id="date_format" name="date_format" type="radio" class="custom-control-input" value="m-d-Y" <?php if ($date_format_xi == 'm-d-Y') { ?> checked <?php } ?>>
+              <input id="date_format_mdy" name="date_format" type="radio" class="custom-control-input" value="m-d-Y" <?php if ($date_format_xi == 'm-d-Y') { ?> checked <?php } ?>>
               <span class="custom-control-indicator"></span> <span class="custom-control-description">mm-dd-YYYY
                 (<?php echo date('m-d-Y'); ?>)</span> </label>
             <br>
             <label class="custom-control custom-radio">
-              <input id="date_format" name="date_format" type="radio" class="custom-control-input" value="d-M-Y" <?php if ($date_format_xi == 'd-M-Y') { ?> checked <?php } ?>>
+              <input id="date_format_dMy" name="date_format" type="radio" class="custom-control-input" value="d-M-Y" <?php if ($date_format_xi == 'd-M-Y') { ?> checked <?php } ?>>
               <span class="custom-control-indicator"></span> <span class="custom-control-description">dd-MM-YYYY
                 (<?php echo date('d-M-Y'); ?>)</span> </label>
             <br>
             <label class="custom-control custom-radio">
-              <input id="date_format" name="date_format" type="radio" class="custom-control-input" value="M-d-Y" <?php if ($date_format_xi == 'M-d-Y') { ?> checked <?php } ?>>
+              <input id="date_format_Mdy" name="date_format" type="radio" class="custom-control-input" value="M-d-Y" <?php if ($date_format_xi == 'M-d-Y') { ?> checked <?php } ?>>
               <span class="custom-control-indicator"></span> <span class="custom-control-description">MM-dd-YYYY
                 (<?php echo date('M-d-Y'); ?>)</span> </label>
           </div>
@@ -471,11 +471,11 @@
         <h2><?php echo $this->lang->line('xin_attendance_configuration'); ?></h2>
         <div class="col-sm-6">
           <div class="form-group">
-            <label for="enable_attendance"><?php echo $this->lang->line('xin_enable_clock_in_header'); ?>
+            <label for="enable_clock_in_header"><?php echo $this->lang->line('xin_enable_clock_in_header'); ?>
               (<small><?php echo $this->lang->line('xin_it_will_show_everywhere'); ?></small>)</label>
             <br>
             <div class="pull-xs-left m-r-1">
-              <input type="checkbox" class="js-switch" data-size="small" data-color="#3e70c9" data-secondary-color="#ddd" id="enable_attendance" <?php if($enable_attendance=='yes'): ?> checked="checked" <?php endif; ?> value="yes">
+              <input type="checkbox" class="js-switch" data-size="small" data-color="#3e70c9" data-secondary-color="#ddd" id="enable_clock_in_header" <?php if($enable_attendance=='yes'): ?> checked="checked" <?php endif; ?> value="yes">
             </div>
           </div>
         </div>
@@ -564,6 +564,10 @@
       </form>
     </div>
 
+    <div class="box box-block bg-white">
+      <form id="payroll_logo" name="payroll_logo" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+          value="<?php echo $this->security->get_csrf_hash(); ?>">
         <input type="hidden" name="payroll_logo" value="UPDATE">
         <h2><strong><?php echo $this->lang->line('left_payroll'); ?></strong>
           <?php echo $this->lang->line('header_configuration'); ?>
@@ -638,6 +642,8 @@
             </div>
           </div>
         </div>
+      </form>
+    </div>
 
     <div class="box box-block bg-white">
       <form id="job_logo" name="job_logo" method="post" enctype="multipart/form-data">
@@ -687,13 +693,16 @@
       <div class="box box-block bg-white">
         <h2><strong><?php echo $this->lang->line('xin_email_notification_config'); ?></strong>
           <?php echo $this->lang->line('header_configuration'); ?></h2>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="company_name"><?php echo $this->lang->line('xin_email_notification_enable'); ?></label>
-
-              <input type="checkbox" class="js-switch" data-size="small" data-color="#3e70c9"
-                data-secondary-color="#ddd" id="srole_email_notification" <?php if ($enable_email_notification == 'yes'): ?>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="srole_email_notification"><?php echo $this->lang->line('xin_email_notification_enable'); ?></label>
+              <br>
+              <div class="pull-xs-left m-r-1">
+                <input type="checkbox" class="js-switch" data-size="small" data-color="#3e70c9"
+                  data-secondary-color="#ddd" id="srole_email_notification" <?php if ($enable_email_notification == 'yes'): ?>
                   checked="checked" <?php endif; ?> value="yes">
+              </div>
             </div>
           </div>
         </div>
@@ -907,7 +916,7 @@
               <br>
               <div class="pull-xs-left m-r-1">
                 <div class="input-group">
-                  <input type="number" class="form-control" value="<?php echo $file_setting[0]->maximum_file_size; ?>"
+                  <input type="number" class="form-control" value="<?php echo (isset($file_setting[0]) && isset($file_setting[0]->maximum_file_size)) ? $file_setting[0]->maximum_file_size : ''; ?>"
                     name="maximum_file_size" placeholder="<?php echo $this->lang->line('xin_file_size_mb'); ?>">
                   <div class="input-group-addon">MB</div>
                 </div>
@@ -918,7 +927,7 @@
             <div class="form-group">
               <label for="job_application_format"><?php echo $this->lang->line('xin_allowed_extensions'); ?></label>
               <br>
-              <input type="text" value="<?php echo $file_setting[0]->allowed_extensions; ?>" data-role="tagsinput"
+              <input type="text" value="<?php echo (isset($file_setting[0]) && isset($file_setting[0]->allowed_extensions)) ? $file_setting[0]->allowed_extensions : ''; ?>" data-role="tagsinput"
                 name="allowed_extensions">
             </div>
           </div>
@@ -931,7 +940,7 @@
               <br>
               <div class="pull-xs-left m-r-1">
                 <input type="checkbox" class="js-switch" data-size="small" data-color="#3e70c9"
-                  data-secondary-color="#ddd" id="view_all_files" <?php if ($file_setting[0]->is_enable_all_files == 'yes'): ?> checked="checked" <?php endif; ?> value="yes" />
+                  data-secondary-color="#ddd" id="view_all_files" <?php if (isset($file_setting[0]) && $file_setting[0]->is_enable_all_files == 'yes'): ?> checked="checked" <?php endif; ?> value="yes" />
               </div>
             </div>
           </div>

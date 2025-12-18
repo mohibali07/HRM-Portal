@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class xin_model extends CI_Model
 {
@@ -1476,6 +1476,7 @@ class xin_model extends CI_Model
 		}
 	}
 
+
 	// get single record > db table > email template
 	public function read_email_template($id)
 	{
@@ -1489,58 +1490,7 @@ class xin_model extends CI_Model
 
 		if ($query->num_rows() > 0) {
 			return $query->result();
-		} else {
-			return null;
 		}
-	}
-
-	// Function to update record in table
-	public function update_exit_type_record($data, $id)
-	{
-		$this->db->where('exit_type_id', $id);
-		if ($this->db->update('xin_employee_exit_type', $data)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// Function to update record in table
-	public function update_travel_arr_record($data, $id)
-	{
-		$this->db->where('arrangement_type_id', $id);
-		if ($this->db->update('xin_travel_arrangement_type', $data)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// get current month attendance 
-	public function current_month_attendance()
-	{
-		$current_month = date('Y-m');
-		$session = $this->session->userdata('username');
-		$query = $this->db->query("SELECT * from xin_attendance_time where attendance_date like '%" . $current_month . "%' and `employee_id` = '" . $session['user_id'] . "'  group by attendance_date");
-		return $query->num_rows();
-	}
-
-	// get total employee awards 
-	public function total_employee_awards()
-	{
-		$session = $this->session->userdata('username');
-		$id = $session['user_id'];
-		$query = $this->db->query("SELECT * FROM xin_awards where employee_id IN($id) order by award_id desc");
-		return $query->num_rows();
-	}
-
-	// get current employee awards 
-	public function get_employee_awards()
-	{
-		$session = $this->session->userdata('username');
-		$id = $session['user_id'];
-		$query = $this->db->query("SELECT * FROM xin_awards where employee_id IN($id) order by award_id desc");
-		return $query->result();
 	}
 
 	// get user role > links > all
@@ -1549,88 +1499,20 @@ class xin_model extends CI_Model
 
 		// get session
 		$session = $this->session->userdata('username');
-		if (empty($session)) {
-			return array();
-		}
 		// get userinfo and role
 		$user = $this->read_user_info($session['user_id']);
-		if (is_null($user)) {
-			return array();
-		}
-
 		$role_user = $this->read_user_role_info($user[0]->user_role_id);
 
-		if (!is_null($role_user)) {
-			$role_resources_ids = explode(',', $role_user[0]->role_resources);
-		} else {
-			$role_resources_ids = array();
-		}
+		$role_resources_ids = explode(',', $role_user[0]->role_resources);
 		return $role_resources_ids;
 	}
 
-	// get all opened tickets
-	public function all_open_tickets()
-	{
-		$query = $this->db->query("SELECT * FROM xin_support_tickets WHERE ticket_status ='1'");
-		return $query->num_rows();
-	}
 
-	// get all closed tickets
-	public function all_closed_tickets()
-	{
-		$query = $this->db->query("SELECT * FROM xin_support_tickets WHERE ticket_status ='2'");
-		return $query->num_rows();
-	}
 
-	// get selected language
-	public function get_selected_language_name($site_lang)
-	{
-		//english
-		if ($site_lang == 'english') {
-			$name = 'English';
-		} else if ($site_lang == 'chineese') {
-			$name = 'Chineese';
-		} else if ($site_lang == 'danish') {
-			$name = 'Danish';
-		} else if ($site_lang == 'french') {
-			$name = 'French';
-		} else if ($site_lang == 'german') {
-			$name = 'German';
-		} else if ($site_lang == 'greek') {
-			$name = 'Greek';
-		} else if ($site_lang == 'indonesian') {
-			$name = 'Indonesian';
-		} else if ($site_lang == 'italian') {
-			$name = 'Italian';
-		} else if ($site_lang == 'japanese') {
-			$name = 'Japanese';
-		} else if ($site_lang == 'polish') {
-			$name = 'Polish';
-		} else if ($site_lang == 'portuguese') {
-			$name = 'Portuguese';
-		} else if ($site_lang == 'romanian') {
-			$name = 'Romanian';
-		} else if ($site_lang == 'russian') {
-			$name = 'Russian';
-		} else if ($site_lang == 'spanish') {
-			$name = 'Spanish';
-		} else if ($site_lang == 'turkish') {
-			$name = 'Turkish';
-		} else if ($site_lang == 'vietnamese') {
-			$name = 'Vietnamese';
-		} else {
-			$name = 'English';
-		}
-		return $name;
-	}
-
-	// get selected language
 	public function get_selected_language_flag($site_lang)
 	{
-		//english
-		if ($site_lang == 'english') {
-			$flag = 'en.gif';
-		} else if ($site_lang == 'chineese') {
+		$flag = 'en.gif';
+		if ($site_lang == 'chinese') {
 			$flag = 'cn.gif';
 		} else if ($site_lang == 'danish') {
 			$flag = 'dk.gif';
@@ -1664,6 +1546,45 @@ class xin_model extends CI_Model
 			$flag = 'en.gif';
 		}
 		return $flag;
+	}
+
+	public function get_selected_language_name($site_lang)
+	{
+		$name = 'English';
+		if ($site_lang == 'chinese') {
+			$name = 'Chinese';
+		} else if ($site_lang == 'danish') {
+			$name = 'Danish';
+		} else if ($site_lang == 'french') {
+			$name = 'French';
+		} else if ($site_lang == 'german') {
+			$name = 'German';
+		} else if ($site_lang == 'greek') {
+			$name = 'Greek';
+		} else if ($site_lang == 'indonesian') {
+			$name = 'Indonesian';
+		} else if ($site_lang == 'italian') {
+			$name = 'Italian';
+		} else if ($site_lang == 'japanese') {
+			$name = 'Japanese';
+		} else if ($site_lang == 'polish') {
+			$name = 'Polish';
+		} else if ($site_lang == 'portuguese') {
+			$name = 'Portuguese';
+		} else if ($site_lang == 'romanian') {
+			$name = 'Romanian';
+		} else if ($site_lang == 'russian') {
+			$name = 'Russian';
+		} else if ($site_lang == 'spanish') {
+			$name = 'Spanish';
+		} else if ($site_lang == 'turkish') {
+			$name = 'Turkish';
+		} else if ($site_lang == 'vietnamese') {
+			$name = 'Vietnamese';
+		} else {
+			$name = 'English';
+		}
+		return $name;
 	}
 
 }

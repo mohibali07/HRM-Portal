@@ -686,18 +686,6 @@ $(document).ready(function(){
 	$( document ).on( "click", ".delete", function() {
 		$('input[name=_token]').val($(this).data('record-id'));
 		$('input[name=token_type]').val($(this).data('token_type'));
-		$('#delete_record').attr('action',site_url+'employees/delete_'+$(this).data('token_type')+'/'+$(this).data('record-id'));
-	});
-});	
-$(document).ready(function(){
-	
-	$('[data-plugin="select_hrm"]').select2($(this).attr('data-options'));
-	$('[data-plugin="select_hrm"]').select2({ width:'100%' });
-		
-	$('.cont_date').datepicker({
-	  changeMonth: true,
-	  changeYear: true,
-	  dateFormat:'yy-mm-dd',
 	  yearRange: '1990:' + (new Date().getFullYear() + 10),
 	});	
 	

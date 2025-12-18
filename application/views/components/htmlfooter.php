@@ -126,7 +126,7 @@
 </div>
 <div class="cd-panel from-right" id="cd-panel">
 </div> <!-- cd-panel -->
-<?php $logo_second = base_url() . 'uploads/logo/logo2.png'; ?>
+<?php $logo_second = base_url() . 'uploads/logo/' . $company[0]->logo; ?>
 <?php $logo = base_url() . 'uploads/logo/' . $company[0]->logo; ?>
 <style type="text/css">
   .skin-4 .site-header .navbar-brand .logo {
@@ -207,11 +207,11 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>skin/js/reset.css">
 <script type="text/javascript">
   $(document).ready(function () {
-    toastr.options.closeButton = "<?php echo $system[0]->notification_close_btn; ?>";
-    toastr.options.progressBar = "<?php echo $system[0]->notification_bar; ?>";
+    toastr.options.closeButton = <?php echo json_encode($system[0]->notification_close_btn); ?>;
+    toastr.options.progressBar = <?php echo json_encode($system[0]->notification_bar); ?>;
     toastr.options.timeOut = 3000;
     toastr.options.preventDuplicates = true;
-    toastr.options.positionClass = "<?php echo $system[0]->notification_position; ?>";
+    toastr.options.positionClass = <?php echo json_encode($system[0]->notification_position); ?>;
     $(".add-new-form").click(function () {
       $(".add-form").slideToggle('slow');
     });
@@ -230,11 +230,14 @@
 <style type="text/css">
 
 </style>
-<script type="text/javascript">var user_role = '<?php echo $user[0]->user_role_id; ?>';</script>
-<script type="text/javascript">var js_date_format = '<?php echo $this->Xin_model->set_date_format_js(); ?>';</script>
-<script type="text/javascript">var site_url = '<?php echo base_url(); ?>';</script>
-<script type="text/javascript">var base_url = '<?php echo base_url() . $this->router->fetch_class(); ?>';</script>
-<script type="text/javascript" src="<?php echo base_url() . 'skin/js_module/' . $path_url . '.js'; ?>"></script>
+<script type="text/javascript">
+  var user_role = <?php echo json_encode((isset($user) && is_array($user) && isset($user[0]) && isset($user[0]->user_role_id)) ? $user[0]->user_role_id : ''); ?>;
+  var js_date_format = <?php echo json_encode((isset($this->Xin_model) && method_exists($this->Xin_model, 'set_date_format_js')) ? $this->Xin_model->set_date_format_js() : 'yy-mm-dd'); ?>;
+  var site_url = <?php echo json_encode(base_url()); ?>;
+  var base_url = <?php echo json_encode(base_url() . $this->router->fetch_class()); ?>;
+</script>
+<?php $js_file = (isset($path_url) && $path_url != '') ? $path_url : 'dashboard'; ?>
+<script type="text/javascript" src="<?php echo base_url() . 'skin/js_module/' . $js_file . '.js'; ?>"></script>
 <script type="text/javascript" src="<?php echo base_url() . 'skin/js_module/set_clocking.js'; ?>"></script>
 <script type="text/javascript" src="<?php echo base_url() . 'skin/js_module/custom.js'; ?>"></script>
 <?php if ($this->router->fetch_method() == 'task_details' || $this->router->fetch_class() == 'project') { ?>

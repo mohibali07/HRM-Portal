@@ -13,8 +13,16 @@ if (!defined('BASEPATH'))
  *
  * @author Parimal
  */
-function pdf_create($html, $filename = '', $stream = TRUE, $set_paper = '') {
-    require_once("dompdf/dompdf_config.inc.php");
+function pdf_create($html, $filename = '', $stream = TRUE, $set_paper = '')
+{
+    $config_file = dirname(__FILE__) . "/dompdf/dompdf_config.inc.php";
+
+    if (file_exists($config_file)) {
+        require_once($config_file);
+    } else {
+        show_error("DOMPDF configuration file not found at: " . $config_file);
+        return;
+    }
 
     $dompdf = new DOMPDF();
     $dompdf->load_html($html);

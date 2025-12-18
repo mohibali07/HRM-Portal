@@ -1669,5 +1669,32 @@ class xin_model extends CI_Model
 		return $name;
 	}
 
+
+
+	// get current month attendance 
+	public function current_month_attendance()
+	{
+		$session = $this->session->userdata('username');
+		$return_date = date('Y-m');
+		$query = $this->db->query("SELECT * from xin_attendance_time where attendance_date like '%" . $return_date . "%' and employee_id = '" . $session['user_id'] . "'");
+		return $query->num_rows();
+	}
+
+	// get total employee awards 
+	public function total_employee_awards()
+	{
+		$session = $this->session->userdata('username');
+		$query = $this->db->query("SELECT * from xin_awards where employee_id = '" . $session['user_id'] . "'");
+		return $query->num_rows();
+	}
+
+	// get current employee awards 
+	public function get_employee_awards()
+	{
+		$session = $this->session->userdata('username');
+		$query = $this->db->query("SELECT * from xin_awards where employee_id = '" . $session['user_id'] . "'");
+		return $query->result();
+	}
+
 }
 ?>

@@ -47,8 +47,8 @@ if ($system[0]->system_skin == 'skin-default') {
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="layout" role="tabpanel" aria-expanded="true">
-          <form id="layout_skin_info" action="<?php echo site_url("settings/layout_skin_info"); ?>" name="layout_skin_info"
-            method="post">
+          <form id="layout_skin_info" action="<?php echo site_url("settings/layout_skin_info"); ?>"
+            name="layout_skin_info" method="post">
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
               value="<?php echo $this->security->get_csrf_hash(); ?>">
             <input type="hidden" name="token" value="1DR59ik46kLKR4E" />
@@ -115,7 +115,8 @@ if ($system[0]->system_skin == 'skin-default') {
                         checked="checked" <?php } ?>>
                     <div class="to-icon"><i class="ti-check"></i></div>
                     <div class="to-skin"> <span class="skin-dark-blue-2"></span> <span class="skin-dark-blue-2"></span>
-                      <span class="bg-white"></span> </div>
+                      <span class="bg-white"></span>
+                    </div>
                   </label>
                 </div>
                 <div class="col-xs-3 mb-2">
@@ -257,7 +258,8 @@ if ($system[0]->system_skin == 'skin-default') {
       </a>
       <div class="toggle-button <?php echo $cl_skin; ?> sidebar-toggle-first float-xs-left hidden-md-up"
         data-toggle-tooltip="tooltip" data-placement="bottom" data-title="Sidebar" data-original-title="" title="">
-        <span class="hamburger"></span> </div>
+        <span class="hamburger"></span>
+      </div>
       <div class="toggle-button <?php echo $cl_skin; ?> float-xs-right hidden-md-up" data-toggle="collapse"
         data-target="#collapse-1" data-toggle-tooltip="tooltip" data-placement="bottom" data-title="Sidebar"
         data-original-title="" title=""> <span class="more"></span> </div>
@@ -265,7 +267,8 @@ if ($system[0]->system_skin == 'skin-default') {
     <div class="navbar-right navbar-toggleable-sm collapse" id="collapse-1">
       <div class="toggle-button <?php echo $cl_skin; ?> sidebar-toggle-second float-xs-left hidden-sm-down"
         data-toggle-tooltip="tooltip" data-placement="bottom" data-title="Sidebar" data-original-title="" title="">
-        <span class="hamburger"></span> </div>
+        <span class="hamburger"></span>
+      </div>
       <ul class="nav navbar-nav float-md-right">
         <li class="nav-item dropdown">
           <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false"> <img
@@ -329,12 +332,18 @@ if ($system[0]->system_skin == 'skin-default') {
                 class="hidden-md-up ml-1"><?php echo $this->lang->line('header_policies'); ?></span></a> </li>
         <?php endif; ?>
         <?php if ($user_info[0]->user_role_id == 1) { ?>
-          <li class="nav-item dropdown"> <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false"> <i
-                class="ti-bell"></i> <span
-                class="hidden-md-up ml-1"><?php echo $this->lang->line('header_notifications'); ?></span> </a>
+          <li class="nav-item dropdown"> <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false"
+              style="position: relative;">
+              <i class="ti-bell"></i>
+              <?php $leave_notifications = $this->Xin_model->get_last_leave_applications(); ?>
+              <?php if (count($leave_notifications) > 0) { ?>
+                <span class="tag tag-danger"
+                  style="position: absolute; top: 10px; right: 0px; padding: 2px 5px; font-size: 10px;"><?php echo count($leave_notifications); ?></span>
+              <?php } ?>
+              <span class="hidden-md-up ml-1"><?php echo $this->lang->line('header_notifications'); ?></span> </a>
             <div
               class="dropdown-messages dropdown-tasks dropdown-menu dropdown-menu-right animated <?php echo $system[0]->animation_effect_topmenu; ?>">
-              <?php foreach ($this->Xin_model->get_last_leave_applications() as $leave_notify) { ?>
+              <?php foreach ($leave_notifications as $leave_notify) { ?>
                 <?php $employee_info = $this->Xin_model->read_user_info($leave_notify->employee_id); ?>
                 <?php
                 if (!is_null($employee_info)) {
@@ -348,7 +357,8 @@ if ($system[0]->system_skin == 'skin-default') {
                   <div class="mi-icon bg-info"><i class="ti-comment"></i></div>
                   <div class="mi-text"><a class="text-black"
                       href="<?php echo site_url() ?>timesheet/leave_details/id/<?php echo $leave_notify->leave_id; ?>/"><?php echo $emp_name; ?></a>
-                    <span class="text-muted"><?php echo $this->lang->line('header_has_applied_for_leave'); ?></span></div>
+                    <span class="text-muted"><?php echo $this->lang->line('header_has_applied_for_leave'); ?></span>
+                  </div>
                   <div class="mi-time"><?php echo $this->Xin_model->set_date_format($leave_notify->applied_on); ?></div>
                 </div>
               <?php } ?>

@@ -405,7 +405,7 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
               class="s-icon"><i class="fa fa-envelope-o"></i></span> <span
               class="s-text"><?php echo $this->lang->line('left_email_templates'); ?></span> </a> </li>
       <?php } ?>
-      <?php if (!is_null($role_user) && $role_user[0]->role_id != 1) { ?>
+      <?php if ($user_info[0]->user_role_id != 1) { ?>
         <li> <a href="<?php echo site_url(); ?>employee/attendance/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-clock-o"></i></span> <span
               class="s-text"><?php echo $this->lang->line('left_attendance'); ?></span> </a> </li>

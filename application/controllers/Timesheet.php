@@ -615,9 +615,7 @@ class Timesheet extends MY_Controller
 
 		$data['title'] = $this->Xin_model->site_title();
 		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view("timesheet/leave", $data);
-		} else {
+		if (empty($session)) {
 			redirect('');
 		}
 		// Datatables Variables
@@ -1136,9 +1134,7 @@ class Timesheet extends MY_Controller
 
 		$data['title'] = $this->Xin_model->site_title();
 		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view("timesheet/attendance_list", $data);
-		} else {
+		if (empty($session)) {
 			redirect('');
 		}
 		// Datatables Variables
@@ -1258,6 +1254,9 @@ class Timesheet extends MY_Controller
 
 					$str_time = preg_replace("/^([\d]{1,2})\:([\d]{2})$/", "00:$1:$2", $str_time);
 
+					$hours = 0;
+					$minutes = 0;
+					$seconds = 0;
 					sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
 
 					$hrs_old_seconds = $hours * 3600 + $minutes * 60 + $seconds;
@@ -1281,6 +1280,9 @@ class Timesheet extends MY_Controller
 
 					$str_time_rs = preg_replace("/^([\d]{1,2})\:([\d]{2})$/", "00:$1:$2", $str_time_rs);
 
+					$hours_rs = 0;
+					$minutes_rs = 0;
+					$seconds_rs = 0;
 					sscanf($str_time_rs, "%d:%d:%d", $hours_rs, $minutes_rs, $seconds_rs);
 
 					$hrs_old_seconds_rs = $hours_rs * 3600 + $minutes_rs * 60 + $seconds_rs;
@@ -1344,26 +1346,30 @@ class Timesheet extends MY_Controller
 					$leave_arr[] = '99-99-99';
 				}
 
-				if ($office_shift[0]->monday_in_time == '' && $day == 'Monday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->tuesday_in_time == '' && $day == 'Tuesday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->wednesday_in_time == '' && $day == 'Wednesday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->thursday_in_time == '' && $day == 'Thursday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->friday_in_time == '' && $day == 'Friday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->saturday_in_time == '' && $day == 'Saturday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->sunday_in_time == '' && $day == 'Sunday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if (in_array($attendance_date, $holiday_arr)) { // holiday
-					$status = $this->lang->line('xin_holiday');
-				} else if (in_array($attendance_date, $leave_arr)) { // on leave
-					$status = $this->lang->line('xin_on_leave');
+				if (!is_null($office_shift) && isset($office_shift[0])) {
+					if ($office_shift[0]->monday_in_time == '' && $day == 'Monday') {
+						$status = $this->lang->line('xin_holiday');
+					} else if ($office_shift[0]->tuesday_in_time == '' && $day == 'Tuesday') {
+						$status = $this->lang->line('xin_holiday');
+					} else if ($office_shift[0]->wednesday_in_time == '' && $day == 'Wednesday') {
+						$status = $this->lang->line('xin_holiday');
+					} else if ($office_shift[0]->thursday_in_time == '' && $day == 'Thursday') {
+						$status = $this->lang->line('xin_holiday');
+					} else if ($office_shift[0]->friday_in_time == '' && $day == 'Friday') {
+						$status = $this->lang->line('xin_holiday');
+					} else if ($office_shift[0]->saturday_in_time == '' && $day == 'Saturday') {
+						$status = $this->lang->line('xin_holiday');
+					} else if ($office_shift[0]->sunday_in_time == '' && $day == 'Sunday') {
+						$status = $this->lang->line('xin_holiday');
+					} else if (in_array($attendance_date, $holiday_arr)) { // holiday
+						$status = $this->lang->line('xin_holiday');
+					} else if (in_array($attendance_date, $leave_arr)) { // on leave
+						$status = $this->lang->line('xin_on_leave');
+					} else {
+						$status = $this->lang->line('xin_absent');
+					}
 				} else {
-					$status = $this->lang->line('xin_absent');
+					$status = $this->lang->line('xin_holiday');
 				}
 			}
 
@@ -1449,9 +1455,7 @@ class Timesheet extends MY_Controller
 
 		$data['title'] = $this->Xin_model->site_title();
 		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view("timesheet/date_wise", $data);
-		} else {
+		if (empty($session)) {
 			redirect('');
 		}
 		// Datatables Variables
@@ -1462,271 +1466,339 @@ class Timesheet extends MY_Controller
 		$employee_id = $this->input->get("user_id");
 		$employee = $this->Xin_model->read_user_info($employee_id);
 
-		$start_date = new DateTime($this->input->get("start_date"));
-		$end_date = new DateTime($this->input->get("end_date"));
+		if (is_null($employee) || !isset($employee[0])) {
+			$output = array(
+				"draw" => $draw,
+				"recordsTotal" => 0,
+				"recordsFiltered" => 0,
+				"data" => array()
+			);
+			echo json_encode($output);
+			exit();
+		}
+
+		$start_date_in = $this->input->get("start_date");
+		$end_date_in = $this->input->get("end_date");
+
+		if (empty($start_date_in)) {
+			$start_date = new DateTime('first day of this month');
+		} else {
+			$start_date = new DateTime($start_date_in);
+		}
+
+		if (empty($end_date_in)) {
+			$end_date = new DateTime('now');
+		} else {
+			$end_date = new DateTime($end_date_in);
+		}
 		$end_date = $end_date->modify('+1 day');
 
 		$interval_re = new DateInterval('P1D');
 		$date_range = new DatePeriod($start_date, $interval_re, $end_date);
 		$attendance_arr = array();
 
-		$data = array();
-		foreach ($date_range as $date) {
-			$attendance_date = $date->format("Y-m-d");
-			// foreach($employee->result() as $r) {
+		try {
+			header('Content-Type: application/json');
+			$data = array();
+			foreach ($date_range as $date) {
+				$attendance_date = $date->format("Y-m-d");
+				// foreach($employee->result() as $r) {
 
-			// user full name
-			//	$full_name = $r->first_name.' '.$r->last_name;	
-			// get office shift for employee
-			$get_day = strtotime($attendance_date);
-			$day = date('l', $get_day);
+				// user full name
+				//	$full_name = $r->first_name.' '.$r->last_name;	
+				// get office shift for employee
+				$get_day = strtotime($attendance_date);
+				$day = date('l', $get_day);
 
-			// office shift
-			$office_shift = $this->Timesheet_model->read_office_shift_information($employee[0]->office_shift_id);
+				// office shift
+				$office_shift = $this->Timesheet_model->read_office_shift_information($employee[0]->office_shift_id);
 
-			// get clock in/clock out of each employee
-			if ($day == 'Monday') {
-				if ($office_shift[0]->monday_in_time == '') {
+				// get clock in/clock out of each employee
+				if (!is_null($office_shift) && isset($office_shift[0])) {
+					if ($day == 'Monday') {
+						if ($office_shift[0]->monday_in_time == '') {
+							$in_time = '00:00:00';
+							$out_time = '00:00:00';
+						} else {
+							$in_time = $office_shift[0]->monday_in_time;
+							$out_time = $office_shift[0]->monday_out_time;
+						}
+					} else if ($day == 'Tuesday') {
+						if ($office_shift[0]->tuesday_in_time == '') {
+							$in_time = '00:00:00';
+							$out_time = '00:00:00';
+						} else {
+							$in_time = $office_shift[0]->tuesday_in_time;
+							$out_time = $office_shift[0]->tuesday_out_time;
+						}
+					} else if ($day == 'Wednesday') {
+						if ($office_shift[0]->wednesday_in_time == '') {
+							$in_time = '00:00:00';
+							$out_time = '00:00:00';
+						} else {
+							$in_time = $office_shift[0]->wednesday_in_time;
+							$out_time = $office_shift[0]->wednesday_out_time;
+						}
+					} else if ($day == 'Thursday') {
+						if ($office_shift[0]->thursday_in_time == '') {
+							$in_time = '00:00:00';
+							$out_time = '00:00:00';
+						} else {
+							$in_time = $office_shift[0]->thursday_in_time;
+							$out_time = $office_shift[0]->thursday_out_time;
+						}
+					} else if ($day == 'Friday') {
+						if ($office_shift[0]->friday_in_time == '') {
+							$in_time = '00:00:00';
+							$out_time = '00:00:00';
+						} else {
+							$in_time = $office_shift[0]->friday_in_time;
+							$out_time = $office_shift[0]->friday_out_time;
+						}
+					} else if ($day == 'Saturday') {
+						if ($office_shift[0]->saturday_in_time == '') {
+							$in_time = '00:00:00';
+							$out_time = '00:00:00';
+						} else {
+							$in_time = $office_shift[0]->saturday_in_time;
+							$out_time = $office_shift[0]->saturday_out_time;
+						}
+					} else if ($day == 'Sunday') {
+						if ($office_shift[0]->sunday_in_time == '') {
+							$in_time = '00:00:00';
+							$out_time = '00:00:00';
+						} else {
+							$in_time = $office_shift[0]->sunday_in_time;
+							$out_time = $office_shift[0]->sunday_out_time;
+						}
+					}
+				} else {
 					$in_time = '00:00:00';
 					$out_time = '00:00:00';
-				} else {
-					$in_time = $office_shift[0]->monday_in_time;
-					$out_time = $office_shift[0]->monday_out_time;
 				}
-			} else if ($day == 'Tuesday') {
-				if ($office_shift[0]->tuesday_in_time == '') {
-					$in_time = '00:00:00';
-					$out_time = '00:00:00';
-				} else {
-					$in_time = $office_shift[0]->tuesday_in_time;
-					$out_time = $office_shift[0]->tuesday_out_time;
-				}
-			} else if ($day == 'Wednesday') {
-				if ($office_shift[0]->wednesday_in_time == '') {
-					$in_time = '00:00:00';
-					$out_time = '00:00:00';
-				} else {
-					$in_time = $office_shift[0]->wednesday_in_time;
-					$out_time = $office_shift[0]->wednesday_out_time;
-				}
-			} else if ($day == 'Thursday') {
-				if ($office_shift[0]->thursday_in_time == '') {
-					$in_time = '00:00:00';
-					$out_time = '00:00:00';
-				} else {
-					$in_time = $office_shift[0]->thursday_in_time;
-					$out_time = $office_shift[0]->thursday_out_time;
-				}
-			} else if ($day == 'Friday') {
-				if ($office_shift[0]->friday_in_time == '') {
-					$in_time = '00:00:00';
-					$out_time = '00:00:00';
-				} else {
-					$in_time = $office_shift[0]->friday_in_time;
-					$out_time = $office_shift[0]->friday_out_time;
-				}
-			} else if ($day == 'Saturday') {
-				if ($office_shift[0]->saturday_in_time == '') {
-					$in_time = '00:00:00';
-					$out_time = '00:00:00';
-				} else {
-					$in_time = $office_shift[0]->saturday_in_time;
-					$out_time = $office_shift[0]->saturday_out_time;
-				}
-			} else if ($day == 'Sunday') {
-				if ($office_shift[0]->sunday_in_time == '') {
-					$in_time = '00:00:00';
-					$out_time = '00:00:00';
-				} else {
-					$in_time = $office_shift[0]->sunday_in_time;
-					$out_time = $office_shift[0]->sunday_out_time;
-				}
-			}
-			// check if clock-in for date
-			$attendance_status = '';
-			$check = $this->Timesheet_model->attendance_first_in_check($employee[0]->user_id, $attendance_date);
-			if ($check->num_rows() > 0) {
-				// check clock in time
-				$attendance = $this->Timesheet_model->attendance_first_in($employee[0]->user_id, $attendance_date);
-				// clock in
-				$clock_in = new DateTime($attendance[0]->clock_in);
-				$clock_in2 = $clock_in->format('h:i a');
+				// check if clock-in for date
+				$attendance_status = '';
+				$check = $this->Timesheet_model->attendance_first_in_check($employee[0]->user_id, $attendance_date);
+				if ($check->num_rows() > 0) {
+					// check clock in time
+					$attendance = $this->Timesheet_model->attendance_first_in($employee[0]->user_id, $attendance_date);
+					// clock in
+					if (isset($attendance[0])) {
+						$clock_in = new DateTime($attendance[0]->clock_in);
+						$clock_in2 = $clock_in->format('h:i a');
+						$clock_in_time_new = strtotime($attendance[0]->clock_in);
+						$status = $attendance[0]->attendance_status;
+					} else {
+						$clock_in = new DateTime($in_time . ' ' . $attendance_date);
+						$clock_in2 = '-';
+						$clock_in_time_new = strtotime($in_time . ' ' . $attendance_date);
+						$status = '';
+					}
 
-				$office_time = new DateTime($in_time . ' ' . $attendance_date);
-				//time diff > total time late
-				$office_time_new = strtotime($in_time . ' ' . $attendance_date);
-				$clock_in_time_new = strtotime($attendance[0]->clock_in);
-				if ($clock_in_time_new <= $office_time_new) {
+					$office_time = new DateTime($in_time . ' ' . $attendance_date);
+					//time diff > total time late
+					$office_time_new = strtotime($in_time . ' ' . $attendance_date);
+					if ($clock_in_time_new <= $office_time_new) {
+						$total_time_l = '00:00';
+					} else {
+						$interval_late = $clock_in->diff($office_time);
+						$hours_l = $interval_late->format('%h');
+						$minutes_l = $interval_late->format('%i');
+						$total_time_l = $hours_l . "h " . $minutes_l . "m";
+					}
+
+					// total hours work/ed
+					$total_hrs = $this->Timesheet_model->total_hours_worked_attendance($employee[0]->user_id, $attendance_date);
+					$hrs_old_int1 = '';
+					$Total = '';
+					$Trest = '';
+					$total_time_rs = '';
+					$hrs_old_int_res1 = '';
+					foreach ($total_hrs->result() as $hour_work) {
+						// total work			
+						$timee = $hour_work->total_work . ':00';
+						$str_time = $timee;
+
+						$str_time = preg_replace("/^([\d]{1,2})\:([\d]{2})$/", "00:$1:$2", $str_time);
+
+						$hours = 0;
+						$minutes = 0;
+						$seconds = 0;
+						sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
+
+						$hrs_old_seconds = $hours * 3600 + $minutes * 60 + $seconds;
+
+						$hrs_old_int1 += $hrs_old_seconds;
+
+						$Total = gmdate("H:i", $hrs_old_int1);
+					}
+					if ($Total == '') {
+						$total_work = '00:00';
+					} else {
+						$total_work = $Total;
+					}
+
+					// total rest > 
+					$total_rest = $this->Timesheet_model->total_rest_attendance($employee[0]->user_id, $attendance_date);
+					foreach ($total_rest->result() as $rest) {
+						// total rest
+						$str_time_rs = $rest->total_rest . ':00';
+						//$str_time_rs =$timee_rs;
+
+						$str_time_rs = preg_replace("/^([\d]{1,2})\:([\d]{2})$/", "00:$1:$2", $str_time_rs);
+
+						$hours_rs = 0;
+						$minutes_rs = 0;
+						$seconds_rs = 0;
+						sscanf($str_time_rs, "%d:%d:%d", $hours_rs, $minutes_rs, $seconds_rs);
+
+						$hrs_old_seconds_rs = $hours_rs * 3600 + $minutes_rs * 60 + $seconds_rs;
+
+						$hrs_old_int_res1 += $hrs_old_seconds_rs;
+
+						$total_time_rs = gmdate("H:i", $hrs_old_int_res1);
+					}
+
+					// check attendance status
+					$status = $attendance[0]->attendance_status;
+					if ($total_time_rs == '') {
+						$Trest = '00:00';
+					} else {
+						$Trest = $total_time_rs;
+					}
+
+				} else {
+					$clock_in2 = '-';
 					$total_time_l = '00:00';
-				} else {
-					$interval_late = $clock_in->diff($office_time);
-					$hours_l = $interval_late->format('%h');
-					$minutes_l = $interval_late->format('%i');
-					$total_time_l = $hours_l . "h " . $minutes_l . "m";
-				}
-
-				// total hours work/ed
-				$total_hrs = $this->Timesheet_model->total_hours_worked_attendance($employee[0]->user_id, $attendance_date);
-				$hrs_old_int1 = '';
-				$Total = '';
-				$Trest = '';
-				$total_time_rs = '';
-				$hrs_old_int_res1 = '';
-				foreach ($total_hrs->result() as $hour_work) {
-					// total work			
-					$timee = $hour_work->total_work . ':00';
-					$str_time = $timee;
-
-					$str_time = preg_replace("/^([\d]{1,2})\:([\d]{2})$/", "00:$1:$2", $str_time);
-
-					sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
-
-					$hrs_old_seconds = $hours * 3600 + $minutes * 60 + $seconds;
-
-					$hrs_old_int1 += $hrs_old_seconds;
-
-					$Total = gmdate("H:i", $hrs_old_int1);
-				}
-				if ($Total == '') {
 					$total_work = '00:00';
-				} else {
-					$total_work = $Total;
-				}
-
-				// total rest > 
-				$total_rest = $this->Timesheet_model->total_rest_attendance($employee[0]->user_id, $attendance_date);
-				foreach ($total_rest->result() as $rest) {
-					// total rest
-					$str_time_rs = $rest->total_rest . ':00';
-					//$str_time_rs =$timee_rs;
-
-					$str_time_rs = preg_replace("/^([\d]{1,2})\:([\d]{2})$/", "00:$1:$2", $str_time_rs);
-
-					sscanf($str_time_rs, "%d:%d:%d", $hours_rs, $minutes_rs, $seconds_rs);
-
-					$hrs_old_seconds_rs = $hours_rs * 3600 + $minutes_rs * 60 + $seconds_rs;
-
-					$hrs_old_int_res1 += $hrs_old_seconds_rs;
-
-					$total_time_rs = gmdate("H:i", $hrs_old_int_res1);
-				}
-
-				// check attendance status
-				$status = $attendance[0]->attendance_status;
-				if ($total_time_rs == '') {
 					$Trest = '00:00';
-				} else {
-					$Trest = $total_time_rs;
-				}
+					// get holiday/leave or absent
+					/* attendance status */
+					// get holiday
+					$h_date_chck = $this->Timesheet_model->holiday_date_check($attendance_date);
+					$holiday_arr = array();
+					if ($h_date_chck->num_rows() == 1) {
+						$h_date = $this->Timesheet_model->holiday_date($attendance_date);
+						if (isset($h_date[0])) {
+							$begin = new DateTime($h_date[0]->start_date);
+							$end = new DateTime($h_date[0]->end_date);
+							$end = $end->modify('+1 day');
 
-			} else {
-				$clock_in2 = '-';
-				$total_time_l = '00:00';
-				$total_work = '00:00';
-				$Trest = '00:00';
-				// get holiday/leave or absent
-				/* attendance status */
-				// get holiday
-				$h_date_chck = $this->Timesheet_model->holiday_date_check($attendance_date);
-				$holiday_arr = array();
-				if ($h_date_chck->num_rows() == 1) {
-					$h_date = $this->Timesheet_model->holiday_date($attendance_date);
-					$begin = new DateTime($h_date[0]->start_date);
-					$end = new DateTime($h_date[0]->end_date);
-					$end = $end->modify('+1 day');
+							$interval = new DateInterval('P1D');
+							$daterange = new DatePeriod($begin, $interval, $end);
 
-					$interval = new DateInterval('P1D');
-					$daterange = new DatePeriod($begin, $interval, $end);
-
-					foreach ($daterange as $date) {
-						$holiday_arr[] = $date->format("Y-m-d");
+							foreach ($daterange as $date) {
+								$holiday_arr[] = $date->format("Y-m-d");
+							}
+						} else {
+							$holiday_arr[] = '99-99-99';
+						}
+					} else {
+						$holiday_arr[] = '99-99-99';
 					}
-				} else {
-					$holiday_arr[] = '99-99-99';
-				}
 
 
-				// get leave/employee
-				$leave_date_chck = $this->Timesheet_model->leave_date_check($employee[0]->user_id, $attendance_date);
-				$leave_arr = array();
-				if ($leave_date_chck->num_rows() == 1) {
-					$leave_date = $this->Timesheet_model->leave_date($employee[0]->user_id, $attendance_date);
-					$begin1 = new DateTime($leave_date[0]->from_date);
-					$end1 = new DateTime($leave_date[0]->to_date);
-					$end1 = $end1->modify('+1 day');
+					// get leave/employee
+					$leave_date_chck = $this->Timesheet_model->leave_date_check($employee[0]->user_id, $attendance_date);
+					$leave_arr = array();
+					if ($leave_date_chck->num_rows() == 1) {
+						$leave_date = $this->Timesheet_model->leave_date($employee[0]->user_id, $attendance_date);
+						if (isset($leave_date[0])) {
+							$begin1 = new DateTime($leave_date[0]->from_date);
+							$end1 = new DateTime($leave_date[0]->to_date);
+							$end1 = $end1->modify('+1 day');
 
-					$interval1 = new DateInterval('P1D');
-					$daterange1 = new DatePeriod($begin1, $interval1, $end1);
+							$interval1 = new DateInterval('P1D');
+							$daterange1 = new DatePeriod($begin1, $interval1, $end1);
 
-					foreach ($daterange1 as $date1) {
-						$leave_arr[] = $date1->format("Y-m-d");
+							foreach ($daterange1 as $date1) {
+								$leave_arr[] = $date1->format("Y-m-d");
+							}
+						} else {
+							$leave_arr[] = '99-99-99';
+						}
+					} else {
+						$leave_arr[] = '99-99-99';
 					}
-				} else {
-					$leave_arr[] = '99-99-99';
+
+					if (!is_null($office_shift) && isset($office_shift[0])) {
+						if ($office_shift[0]->monday_in_time == '' && $day == 'Monday') {
+							$status = $this->lang->line('xin_holiday');
+						} else if ($office_shift[0]->tuesday_in_time == '' && $day == 'Tuesday') {
+							$status = $this->lang->line('xin_holiday');
+						} else if ($office_shift[0]->wednesday_in_time == '' && $day == 'Wednesday') {
+							$status = $this->lang->line('xin_holiday');
+						} else if ($office_shift[0]->thursday_in_time == '' && $day == 'Thursday') {
+							$status = $this->lang->line('xin_holiday');
+						} else if ($office_shift[0]->friday_in_time == '' && $day == 'Friday') {
+							$status = $this->lang->line('xin_holiday');
+						} else if ($office_shift[0]->saturday_in_time == '' && $day == 'Saturday') {
+							$status = $this->lang->line('xin_holiday');
+						} else if ($office_shift[0]->sunday_in_time == '' && $day == 'Sunday') {
+							$status = $this->lang->line('xin_holiday');
+						} else if (in_array($attendance_date, $holiday_arr)) { // holiday
+							$status = $this->lang->line('xin_holiday');
+						} else if (in_array($attendance_date, $leave_arr)) { // on leave
+							$status = $this->lang->line('xin_on_leave');
+						} else {
+							$status = $this->lang->line('xin_absent');
+						}
+					} else {
+						$status = $this->lang->line('xin_holiday');
+					}
 				}
 
-				if ($office_shift[0]->monday_in_time == '' && $day == 'Monday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->tuesday_in_time == '' && $day == 'Tuesday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->wednesday_in_time == '' && $day == 'Wednesday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->thursday_in_time == '' && $day == 'Thursday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->friday_in_time == '' && $day == 'Friday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->saturday_in_time == '' && $day == 'Saturday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if ($office_shift[0]->sunday_in_time == '' && $day == 'Sunday') {
-					$status = $this->lang->line('xin_holiday');
-				} else if (in_array($attendance_date, $holiday_arr)) { // holiday
-					$status = $this->lang->line('xin_holiday');
-				} else if (in_array($attendance_date, $leave_arr)) { // on leave
-					$status = $this->lang->line('xin_on_leave');
-				} else {
-					$status = $this->lang->line('xin_absent');
-				}
-			}
+				// check if clock-out for date
+				$check_out = $this->Timesheet_model->attendance_first_out_check($employee[0]->user_id, $attendance_date);
+				if ($check_out->num_rows() == 1) {
+					/* early time */
+					$early_time = new DateTime($out_time . ' ' . $attendance_date);
+					// check clock in time
+					$first_out = $this->Timesheet_model->attendance_first_out($employee[0]->user_id, $attendance_date);
+					// clock out
+					if (isset($first_out[0])) {
+						$clock_out = new DateTime($first_out[0]->clock_out);
+						$clock_out2 = $clock_out->format('h:i a');
+						$clock_out_time_new = strtotime($first_out[0]->clock_out);
+					} else {
+						$clock_out = new DateTime('now');
+						$clock_out2 = '-';
+						$clock_out_time_new = 0;
+					}
 
-			// check if clock-out for date
-			$check_out = $this->Timesheet_model->attendance_first_out_check($employee[0]->user_id, $attendance_date);
-			if ($check_out->num_rows() == 1) {
-				/* early time */
-				$early_time = new DateTime($out_time . ' ' . $attendance_date);
-				// check clock in time
-				$first_out = $this->Timesheet_model->attendance_first_out($employee[0]->user_id, $attendance_date);
-				// clock out
-				$clock_out = new DateTime($first_out[0]->clock_out);
+					if (isset($first_out[0]) && $first_out[0]->clock_out != '') {
+						// early leaving
+						$early_new_time = strtotime($out_time . ' ' . $attendance_date);
 
-				if ($first_out[0]->clock_out != '') {
-					$clock_out2 = $clock_out->format('h:i a');
-					// early leaving
-					$early_new_time = strtotime($out_time . ' ' . $attendance_date);
-					$clock_out_time_new = strtotime($first_out[0]->clock_out);
+						if ($early_new_time <= $clock_out_time_new) {
+							$total_time_e = '00:00';
+						} else {
+							$interval_lateo = $clock_out->diff($early_time);
+							$hours_e = $interval_lateo->format('%h');
+							$minutes_e = $interval_lateo->format('%i');
+							$total_time_e = $hours_e . "h " . $minutes_e . "m";
+						}
 
-					if ($early_new_time <= $clock_out_time_new) {
+						/* over time */
+						$over_time = new DateTime($out_time . ' ' . $attendance_date);
+						$overtime2 = $over_time->format('h:i a');
+						// over time
+						$over_time_new = strtotime($out_time . ' ' . $attendance_date);
+						$clock_out_time_new1 = strtotime($first_out[0]->clock_out);
+
+						if ($clock_out_time_new1 <= $over_time_new) {
+							$overtime2 = '00:00';
+						} else {
+							$interval_lateov = $clock_out->diff($over_time);
+							$hours_ov = $interval_lateov->format('%h');
+							$minutes_ov = $interval_lateov->format('%i');
+							$overtime2 = $hours_ov . "h " . $minutes_ov . "m";
+						}
+
+					} else {
+						$clock_out2 = '-';
 						$total_time_e = '00:00';
-					} else {
-						$interval_lateo = $clock_out->diff($early_time);
-						$hours_e = $interval_lateo->format('%h');
-						$minutes_e = $interval_lateo->format('%i');
-						$total_time_e = $hours_e . "h " . $minutes_e . "m";
-					}
-
-					/* over time */
-					$over_time = new DateTime($out_time . ' ' . $attendance_date);
-					$overtime2 = $over_time->format('h:i a');
-					// over time
-					$over_time_new = strtotime($out_time . ' ' . $attendance_date);
-					$clock_out_time_new1 = strtotime($first_out[0]->clock_out);
-
-					if ($clock_out_time_new1 <= $over_time_new) {
 						$overtime2 = '00:00';
-					} else {
-						$interval_lateov = $clock_out->diff($over_time);
-						$hours_ov = $interval_lateov->format('%h');
-						$minutes_ov = $interval_lateov->format('%i');
-						$overtime2 = $hours_ov . "h " . $minutes_ov . "m";
 					}
 
 				} else {
@@ -1734,47 +1806,46 @@ class Timesheet extends MY_Controller
 					$total_time_e = '00:00';
 					$overtime2 = '00:00';
 				}
+				// set date format >
+				$tdate = $this->Xin_model->set_date_format($attendance_date);
 
-			} else {
-				$clock_out2 = '-';
-				$total_time_e = '00:00';
-				$overtime2 = '00:00';
+				$data[] = array(
+					$status,
+					$tdate,
+					$clock_in2,
+					$clock_out2,
+					$total_time_l,
+					$total_time_e,
+					$overtime2,
+					$total_work,
+					$Trest
+				);
 			}
-			// set date format >
-			$tdate = $this->Xin_model->set_date_format($attendance_date);
 
-			$data[] = array(
-				$status,
-				$tdate,
-				$clock_in2,
-				$clock_out2,
-				$total_time_l,
-				$total_time_e,
-				$overtime2,
-				$total_work,
-				$Trest
+			$output = array(
+				"draw" => $draw,
+				"recordsTotal" => iterator_count($date_range),
+				"recordsFiltered" => iterator_count($date_range),
+				"data" => $data
 			);
+			echo json_encode($output, JSON_PARTIAL_OUTPUT_ON_ERROR);
+			exit();
+		} catch (Exception $e) {
+			$output = array(
+				"draw" => $draw,
+				"recordsTotal" => 0,
+				"recordsFiltered" => 0,
+				"data" => array(),
+				"error" => $e->getMessage()
+			);
+			echo json_encode($output);
+			exit();
 		}
-
-		$output = array(
-			"draw" => $draw,
-			"recordsTotal" => count($date_range),
-			"recordsFiltered" => count($date_range),
-			"data" => $data
-		);
-		echo json_encode($output);
-		exit();
 	}
 
 	// update_attendance_list > timesheet
 	public function update_attendance_list()
 	{
-
-		$data['title'] = $this->Xin_model->site_title();
-		$session = $this->session->userdata('username');
-		// get date
-		$attendance_date = $this->input->get("attendance_date");
-		// get employee id
 		$employee_id = $this->input->get("employee_id");
 		/*// get user info >
 		$user = $this->xin_model->read_user_info($employee_id);
@@ -1791,66 +1862,87 @@ class Timesheet extends MY_Controller
 				'employee_name' => $employee_name,
 				//'employee_id' => $result[0]->employee_id,
 				);*/
-		if (!empty($session)) {
-			$this->load->view("timesheet/update_attendance", $data);
-		} else {
-			redirect('');
-		}
 		// Datatables Variables
 		$draw = intval($this->input->get("draw"));
 		$start = intval($this->input->get("start"));
 		$length = intval($this->input->get("length"));
-
-
-
-		$attendance_employee = $this->Timesheet_model->attendance_employee_with_date($employee_id, $attendance_date);
-
-		$data = array();
-
-		foreach ($attendance_employee->result() as $r) {
-
-			// total work
-			$in_time = new DateTime($r->clock_in);
-			$out_time = new DateTime($r->clock_out);
-
-			$clock_in = $in_time->format('h:i a');
-			// attendance date
-			$att_date_in = explode(' ', $r->clock_in);
-			$att_date_out = explode(' ', $r->clock_out);
-			$cidate = $this->Xin_model->set_date_format($att_date_in[0]);
-			$cin_date = $cidate . ' ' . $clock_in;
-			if ($r->clock_out == '') {
-				$cout_date = '-';
-				$total_time = '-';
-			} else {
-				$clock_out = $out_time->format('h:i a');
-				$interval = $in_time->diff($out_time);
-				$hours = $interval->format('%h');
-				$minutes = $interval->format('%i');
-				$total_time = $hours . "h " . $minutes . "m";
-				$codate = $this->Xin_model->set_date_format($att_date_out[0]);
-				$cout_date = $codate . ' ' . $clock_out;
-			}
-
-			$functions = '<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_edit') . '"><button type="button" class="btn btn-secondary btn-sm m-b-0-0 waves-effect waves-light edit-data" data-toggle="modal" data-target=".edit-modal-data" data-attendance_id="' . $r->time_attendance_id . '"><i class="fa fa-pencil-square-o"></i></button></span>';
-			$functions .= '<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_delete') . '"><button type="button" class="btn btn-danger btn-sm m-b-0-0 waves-effect waves-light delete" data-toggle="modal" data-target=".delete-modal" data-record-id="' . $r->time_attendance_id . '"><i class="fa fa-trash-o"></i></button></span>';
-
-			$data[] = array(
-				$functions,
-				$cin_date,
-				$cout_date,
-				$total_time
+		$attendance_date = $this->input->get("attendance_date");
+		if(empty($attendance_date)) {
+			$attendance_date = date('Y-m-d');
+		}
+		
+		if(empty($employee_id)) {
+			$output = array(
+				"draw" => $draw,
+				"recordsTotal" => 0,
+				"recordsFiltered" => 0,
+				"data" => array()
 			);
+			echo json_encode($output);
+			exit();
 		}
 
-		$output = array(
-			"draw" => $draw,
-			"recordsTotal" => $attendance_employee->num_rows(),
-			"recordsFiltered" => $attendance_employee->num_rows(),
-			"data" => $data
-		);
-		echo json_encode($output);
-		exit();
+		try {
+			header('Content-Type: application/json');
+			$attendance_employee = $this->Timesheet_model->attendance_employee_with_date($employee_id, $attendance_date);
+
+			$data = array();
+
+			foreach ($attendance_employee->result() as $r) {
+
+				// total work
+				$in_time = new DateTime($r->clock_in);
+				$out_time = new DateTime($r->clock_out);
+
+				$clock_in = $in_time->format('h:i a');
+				// attendance date
+				$att_date_in = explode(' ', $r->clock_in);
+				$att_date_out = explode(' ', $r->clock_out);
+				$cidate = $this->Xin_model->set_date_format($att_date_in[0]);
+				$cin_date = $cidate . ' ' . $clock_in;
+				if ($r->clock_out == '') {
+					$cout_date = '-';
+					$total_time = '-';
+				} else {
+					$clock_out = $out_time->format('h:i a');
+					$interval = $in_time->diff($out_time);
+					$hours = $interval->format('%h');
+					$minutes = $interval->format('%i');
+					$total_time = $hours . "h " . $minutes . "m";
+					$codate = $this->Xin_model->set_date_format($att_date_out[0]);
+					$cout_date = $codate . ' ' . $clock_out;
+				}
+
+				$functions = '<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_edit') . '"><button type="button" class="btn btn-secondary btn-sm m-b-0-0 waves-effect waves-light edit-data" data-toggle="modal" data-target=".edit-modal-data" data-attendance_id="' . $r->time_attendance_id . '"><i class="fa fa-pencil-square-o"></i></button></span>';
+				$functions .= '<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_delete') . '"><button type="button" class="btn btn-danger btn-sm m-b-0-0 waves-effect waves-light delete" data-toggle="modal" data-target=".delete-modal" data-record-id="' . $r->time_attendance_id . '"><i class="fa fa-trash-o"></i></button></span>';
+
+				$data[] = array(
+					$functions,
+					$cin_date,
+					$cout_date,
+					$total_time
+				);
+			}
+
+			$output = array(
+				"draw" => $draw,
+				"recordsTotal" => $attendance_employee->num_rows(),
+				"recordsFiltered" => $attendance_employee->num_rows(),
+				"data" => $data
+			);
+			echo json_encode($output, JSON_PARTIAL_OUTPUT_ON_ERROR);
+			exit();
+		} catch (Exception $e) {
+			$output = array(
+				"draw" => $draw,
+				"recordsTotal" => 0,
+				"recordsFiltered" => 0,
+				"data" => array(),
+				"error" => $e->getMessage()
+			);
+			echo json_encode($output);
+			exit();
+		}
 	}
 
 	// update_attendance_list > timesheet
@@ -1859,9 +1951,7 @@ class Timesheet extends MY_Controller
 
 		$data['title'] = $this->Xin_model->site_title();
 		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view("timesheet/office_shift", $data);
-		} else {
+		if (empty($session)) {
 			redirect('');
 		}
 		// Datatables Variables
@@ -1963,15 +2053,14 @@ class Timesheet extends MY_Controller
 		exit();
 	}
 
+
 	// holidays_list > timesheet
 	public function holidays_list()
 	{
 
 		$data['title'] = $this->Xin_model->site_title();
 		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view("timesheet/holidays", $data);
-		} else {
+		if (empty($session)) {
 			redirect('');
 		}
 		// Datatables Variables
@@ -2020,9 +2109,7 @@ class Timesheet extends MY_Controller
 
 		$data['title'] = $this->Xin_model->site_title();
 		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view("timesheet/leave", $data);
-		} else {
+		if (empty($session)) {
 			redirect('');
 		}
 		// Datatables Variables
@@ -2841,8 +2928,8 @@ class Timesheet extends MY_Controller
 			} else if ($this->input->post('clock_in') === '') {
 				$Return['error'] = $this->lang->line('xin_error_attendance_in_time');
 			} /*else if($this->input->post('clock_out')==='') {
-			 $Return['error'] = "The office Out Time field is required.";
-		 }*/
+$Return['error'] = "The office Out Time field is required.";
+}*/
 
 			if ($Return['error'] != '') {
 				$this->output($Return);

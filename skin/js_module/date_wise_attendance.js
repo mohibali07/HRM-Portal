@@ -2,7 +2,7 @@ $(document).ready(function() {
    var xin_table = $('#xin_table').dataTable({
         "bDestroy": true,
 		"ajax": {
-            url : site_url+"timesheet/date_wise_list/?start_date="+$('#start_date').val()+"&end_date="+$('#end_date').val()+"&user_id="+$('#user_id').val(),
+            url : site_url+"timesheet/date_wise_list?start_date="+$('#start_date').val()+"&end_date="+$('#end_date').val()+"&user_id="+$('#user_id').val(),
             type : 'GET'
         },
 		"fnDrawCallback": function(settings){
@@ -37,7 +37,7 @@ $(document).ready(function() {
 		var xin_table2 = $('#xin_table').dataTable({
 			"bDestroy": true,
 			"ajax": {
-				url : site_url+"timesheet/date_wise_list/?start_date="+start_date+"&end_date="+end_date+"&user_id="+user_id,
+				url : site_url+"timesheet/date_wise_list?start_date="+start_date+"&end_date="+end_date+"&user_id="+user_id,
 				type : 'GET'
 			},
 			"fnDrawCallback": function(settings){

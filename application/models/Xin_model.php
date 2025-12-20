@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 class xin_model extends CI_Model
 {

@@ -382,7 +382,7 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
           </li>
         <?php } ?>
       <?php } ?>
-      <?php if (!is_null($role_user) && $user_info[0]->user_role_id == 1) { ?>
+            <?php if (!is_null($role_user) && $user_info[0]->user_role_id == 1) { ?>
         <li class="menu-title"><?php echo $this->lang->line('left_more'); ?></li>
       <?php } ?>
       <?php if (in_array('53', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
@@ -404,6 +404,11 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
         <li> <a href="<?php echo site_url(); ?>settings/email_template/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-envelope-o"></i></span> <span
               class="s-text"><?php echo $this->lang->line('left_email_templates'); ?></span> </a> </li>
+      <?php } ?>
+      <?php if ($user_info[0]->user_role_id == 1) { ?>
+        <li> <a href="<?php echo site_url(); ?>zkteco" class="waves-effect waves-light"> <span class="s-icon"><i
+                class="fa fa-clock-o"></i></span> <span
+              class="s-text">ZKTeco Integration</span> </a> </li>
       <?php } ?>
       <?php if ($user_info[0]->user_role_id != 1) { ?>
         <li> <a href="<?php echo site_url(); ?>employee/attendance/" class="waves-effect waves-light"> <span

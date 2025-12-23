@@ -87,4 +87,65 @@ $(document).ready(function () {
 				.text("Error");
 		});
 	}
+	$("#btn_get_data").click(function () {
+		var start_date = $("#attendance_date").val();
+		var end_date = $("#attendance_end_date").val();
+
+		if (start_date == "") {
+			alert("Please select a start date");
+			return;
+		}
+		if (end_date == "") {
+			alert("Please select an end date");
+			return;
+		}
+
+		var $btn = $(this);
+		$btn.prop("disabled", true).text("Generating...");
+
+		// Show loader, hide result
+		$("#attendance_loader").show();
+		$("#attendance_result").hide();
+		$("#report_body").empty();
+
+		var data = { start_date: start_date, end_date: end_date };
+		if (typeof zkteco_csrf !== "undefined") {
+			data[zkteco_csrf.name] = zkteco_csrf.hash;
+		}
+
+		$.post(zkteco_urls.generate_attendance_report, data, function (data) {
+			var res = JSON.parse(data);
+
+			$("#attendance_loader").hide();
+			$btn.prop("disabled", false).text("Get Data");
+
+			if (res.status == "success") {
+				$("#attendance_result").show();
+				var row =
+					"<tr>" +
+					"<td>" +
+					start_date +
+					" to " +
+					end_date +
+					"</td>" +
+					"<td>" +
+					res.count +
+					"</td>" +
+					'<td><a href="' +
+					res.file_url +
+					'" class="btn btn-success" target="_blank"><i class="fa fa-download"></i> Download CSV</a></td>' +
+					"</tr>";
+				$("#report_body").html(row);
+
+				// Optional: Show success message
+				// toastr.success(res.msg);
+			} else {
+				alert(res.msg);
+			}
+		}).fail(function () {
+			$("#attendance_loader").hide();
+			$btn.prop("disabled", false).text("Get Data");
+			alert("Request failed. Please try again.");
+		});
+	});
 });

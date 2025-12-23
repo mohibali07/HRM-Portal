@@ -1,0 +1,82 @@
+"User ID",Name,Date,Day,Check-In,Check-Out,"Work Hours","All Punches",Status
+129,Unknown,02-Dec-2025,Tuesday,"09:17 AM",,,09:17:28,"Missing Out-Punch"
+129,Unknown,04-Dec-2025,Thursday,"01:17 PM",,,13:17:25,"Missing Out-Punch"
+129,Unknown,10-Dec-2025,Wednesday,"09:16 AM","01:03 PM",03:47,"09:16:15, 13:03:20",Present
+94,Unknown,02-Dec-2025,Tuesday,"09:18 AM","01:03 PM",03:45,"09:18:04, 13:03:53",Present
+94,Unknown,06-Dec-2025,Saturday,"01:55 PM",,,13:55:53,"Missing Out-Punch"
+95,Unknown,02-Dec-2025,Tuesday,"09:18 AM","01:03 PM",03:44,"09:18:14, 13:03:09",Present
+95,Unknown,04-Dec-2025,Thursday,"01:14 PM",,,13:14:37,"Missing Out-Punch"
+95,Unknown,06-Dec-2025,Saturday,"01:55 PM",,,13:55:43,"Missing Out-Punch"
+123,Unknown,02-Dec-2025,Tuesday,"09:19 AM","12:30 PM",03:11,"09:19:15, 12:30:46",Present
+123,Unknown,04-Dec-2025,Thursday,"01:25 PM",,,13:25:07,"Missing Out-Punch"
+123,Unknown,10-Dec-2025,Wednesday,"09:45 AM","12:47 PM",03:02,"09:45:07, 12:47:23",Present
+134,Unknown,02-Dec-2025,Tuesday,"09:26 AM","01:02 PM",03:35,"09:26:55, 13:02:40",Present
+134,Unknown,04-Dec-2025,Thursday,"01:03 PM",,,13:03:28,"Missing Out-Punch"
+134,Unknown,10-Dec-2025,Wednesday,"09:27 AM","01:00 PM",03:32,"09:27:37, 13:00:08",Present
+135,Unknown,02-Dec-2025,Tuesday,"09:27 AM","01:02 PM",03:35,"09:27:03, 13:02:49",Present
+135,Unknown,04-Dec-2025,Thursday,"01:03 PM",,,13:03:36,"Missing Out-Punch"
+133,Unknown,02-Dec-2025,Tuesday,"09:27 AM","01:02 PM",03:35,"09:27:12, 13:02:57",Present
+133,Unknown,10-Dec-2025,Wednesday,"01:00 PM",,,13:00:13,"Missing Out-Punch"
+131,Unknown,02-Dec-2025,Tuesday,"09:29 AM","01:02 PM",03:32,"09:29:59, 13:02:07",Present
+131,Unknown,04-Dec-2025,Thursday,"09:30 AM","01:01 PM",03:31,"09:30:14, 13:01:31",Present
+131,Unknown,10-Dec-2025,Wednesday,"09:47 AM","01:04 PM",03:17,"09:47:41, 13:04:44",Present
+1,"Techmire Solutions",02-Dec-2025,Tuesday,"09:42 AM",,,09:42:32,"Missing Out-Punch"
+1,"Techmire Solutions",10-Dec-2025,Wednesday,"09:14 AM",,,09:14:30,"Missing Out-Punch"
+55,Unknown,02-Dec-2025,Tuesday,"09:52 AM","01:11 PM",03:18,"09:52:56, 13:11:49",Present
+55,Unknown,06-Dec-2025,Saturday,"04:13 PM",,,16:13:18,"Missing Out-Punch"
+55,Unknown,08-Dec-2025,Monday,"09:11 AM",,,09:11:02,"Missing Out-Punch"
+55,Unknown,10-Dec-2025,Wednesday,"09:24 AM",,,09:24:05,"Missing Out-Punch"
+108,Unknown,02-Dec-2025,Tuesday,"10:20 AM",,,10:20:12,"Missing Out-Punch"
+108,Unknown,04-Dec-2025,Thursday,"11:20 AM",,,11:20:33,"Missing Out-Punch"
+64,Unknown,02-Dec-2025,Tuesday,"10:20 AM",,,10:20:24,"Missing Out-Punch"
+64,Unknown,04-Dec-2025,Thursday,"11:21 AM",,,11:21:14,"Missing Out-Punch"
+64,Unknown,06-Dec-2025,Saturday,"04:12 PM",,,16:12:15,"Missing Out-Punch"
+64,Unknown,10-Dec-2025,Wednesday,"10:08 AM",,,10:08:41,"Missing Out-Punch"
+6,Unknown,02-Dec-2025,Tuesday,"12:45 PM",,,12:45:04,"Missing Out-Punch"
+6,Unknown,06-Dec-2025,Saturday,"06:12 PM",,,18:12:16,"Missing Out-Punch"
+6,Unknown,08-Dec-2025,Monday,"09:12 AM",,,09:12:19,"Missing Out-Punch"
+6,Unknown,10-Dec-2025,Wednesday,"09:14 AM",,,09:14:34,"Missing Out-Punch"
+126,Unknown,02-Dec-2025,Tuesday,"01:02 PM",,,13:02:12,"Missing Out-Punch"
+126,Unknown,04-Dec-2025,Thursday,"01:01 PM",,,13:01:36,"Missing Out-Punch"
+126,Unknown,10-Dec-2025,Wednesday,"09:47 AM","01:02 PM",03:14,"09:47:46, 13:02:08",Present
+8,Unknown,02-Dec-2025,Tuesday,"01:08 PM",,,13:08:32,"Missing Out-Punch"
+8,Unknown,04-Dec-2025,Thursday,"01:02 PM",,,13:02:22,"Missing Out-Punch"
+8,Unknown,10-Dec-2025,Wednesday,"12:46 PM",,,12:46:43,"Missing Out-Punch"
+91,Unknown,02-Dec-2025,Tuesday,"01:20 PM",,,13:20:35,"Missing Out-Punch"
+91,Unknown,04-Dec-2025,Thursday,"01:19 PM",,,13:19:02,"Missing Out-Punch"
+91,Unknown,06-Dec-2025,Saturday,"04:13 PM",,,16:13:37,"Missing Out-Punch"
+100,Unknown,02-Dec-2025,Tuesday,"01:22 PM",,,13:22:13,"Missing Out-Punch"
+100,Unknown,04-Dec-2025,Thursday,"01:12 PM",,,13:12:57,"Missing Out-Punch"
+100,Unknown,06-Dec-2025,Saturday,"01:15 PM","04:13 PM",02:57,"13:15:09, 16:13:04",Present
+100,Unknown,10-Dec-2025,Wednesday,"11:12 AM",,,11:12:05,"Missing Out-Punch"
+13,Unknown,04-Dec-2025,Thursday,"09:28 AM",,,09:28:21,"Missing Out-Punch"
+13,Unknown,10-Dec-2025,Wednesday,"02:30 PM",,,14:30:11,"Missing Out-Punch"
+110,Unknown,04-Dec-2025,Thursday,"09:46 AM",,,09:46:15,"Missing Out-Punch"
+110,Unknown,08-Dec-2025,Monday,"09:04 AM",,,09:04:06,"Missing Out-Punch"
+32,Unknown,04-Dec-2025,Thursday,"10:03 AM",,,10:03:50,"Missing Out-Punch"
+32,Unknown,06-Dec-2025,Saturday,"04:13 PM",,,16:13:08,"Missing Out-Punch"
+32,Unknown,10-Dec-2025,Wednesday,"02:08 PM",,,14:08:40,"Missing Out-Punch"
+109,Unknown,04-Dec-2025,Thursday,"01:21 PM",,,13:21:15,"Missing Out-Punch"
+109,Unknown,06-Dec-2025,Saturday,"02:46 PM","04:15 PM",01:28,"14:46:39, 16:15:35",Present
+98,Unknown,04-Dec-2025,Thursday,"01:23 PM",,,13:23:36,"Missing Out-Punch"
+99,Unknown,04-Dec-2025,Thursday,"01:23 PM",,,13:23:50,"Missing Out-Punch"
+3,Unknown,04-Dec-2025,Thursday,"02:04 PM",,,14:04:59,"Missing Out-Punch"
+3,Unknown,10-Dec-2025,Wednesday,"02:09 PM",,,14:09:21,"Missing Out-Punch"
+114,Unknown,04-Dec-2025,Thursday,"02:27 PM",,,14:27:54,"Missing Out-Punch"
+114,Unknown,06-Dec-2025,Saturday,"02:34 PM","04:11 PM",01:37,"14:34:31, 16:11:50",Present
+114,Unknown,10-Dec-2025,Wednesday,"02:37 PM",,,14:37:53,"Missing Out-Punch"
+132,Unknown,04-Dec-2025,Thursday,"02:34 PM",,,14:34:14,"Missing Out-Punch"
+132,Unknown,06-Dec-2025,Saturday,"02:10 PM","04:11 PM",02:00,"14:10:40, 16:11:17",Present
+132,Unknown,10-Dec-2025,Wednesday,"02:06 PM",,,14:06:29,"Missing Out-Punch"
+128,Unknown,04-Dec-2025,Thursday,"02:34 PM",,,14:34:26,"Missing Out-Punch"
+128,Unknown,10-Dec-2025,Wednesday,"02:27 PM",,,14:27:43,"Missing Out-Punch"
+125,Unknown,04-Dec-2025,Thursday,"02:50 PM",,,14:50:20,"Missing Out-Punch"
+125,Unknown,06-Dec-2025,Saturday,"03:07 PM","04:12 PM",01:05,"15:07:00, 16:12:08",Present
+69,Unknown,04-Dec-2025,Thursday,"05:09 PM",,,17:09:54,"Missing Out-Punch"
+83,Unknown,06-Dec-2025,Saturday,"04:18 PM",,,16:18:43,"Missing Out-Punch"
+83,Unknown,08-Dec-2025,Monday,"09:13 AM",,,09:13:30,"Missing Out-Punch"
+113,Unknown,06-Dec-2025,Saturday,"04:24 PM",,,16:24:58,"Missing Out-Punch"
+92,Unknown,06-Dec-2025,Saturday,"06:11 PM",,,18:11:38,"Missing Out-Punch"
+92,Unknown,08-Dec-2025,Monday,"08:02 AM",,,08:02:01,"Missing Out-Punch"
+130,Unknown,10-Dec-2025,Wednesday,"09:13 AM",,,09:13:04,"Missing Out-Punch"
+44,"Mesam Abbas",10-Dec-2025,Wednesday,"09:44 AM",,,09:44:56,"Missing Out-Punch"

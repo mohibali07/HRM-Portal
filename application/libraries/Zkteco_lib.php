@@ -271,4 +271,65 @@ class Zkteco_lib
 
         return sprintf('%04d-%02d-%02d %02d:%02d:%02d', $year, $month, $day, $hour, $minute, $second);
     }
+    public function getUser()
+    {
+        if (!$this->zkclient)
+            return [];
+
+        // CMD_SSR_USER_RO_RRQ = 72 (Common for TFT devices)
+        $command = $this->createHeader(72, 0, $this->session_id, 0, '');
+        fwrite($this->zkclient, $command);
+
+        $this->data_recv = '';
+        while (true) {
+            $data = fread($this->zkclient, 1024 * 1024);
+            if (strlen($data) == 0)
+                break;
+            $this->data_recv .= $data;
+        }
+
+        if (strlen($this->data_recv) > 0) {
+            return $this->parseUser();
+        }
+
+        return [];
+    }
+
+    private function parseUser()
+    {
+        $users = [];
+        $data = substr($this->data_recv, 4); // Skip command header
+
+        // Check for payload header (usually 16 bytes)
+        if (strlen($data) > 16) {
+            $data = substr($data, 16);
+        }
+
+        // Record size is usually 72 bytes for SSR_USER
+        $record_size = 72;
+        $len = strlen($data);
+
+        for ($i = 0; $i < $len; $i += $record_size) {
+            $chunk = substr($data, $i, $record_size);
+            if (strlen($chunk) < $record_size)
+                break;
+
+            // Parse (Approximate for TFT)
+            // Offset 11: Name (24 bytes)
+            // Offset 48: User ID String (Variable, usually 9+ bytes)
+
+            // Name at offset 11 (length 24)
+            $name = substr($chunk, 11, 24);
+            $name = str_replace("\0", '', trim($name));
+
+            // User ID String at offset 48 (length 9 or more, let's take 20 to be safe)
+            $uid_string = substr($chunk, 48, 20);
+            $uid_string = str_replace("\0", '', trim($uid_string));
+
+            if (!empty($uid_string)) {
+                $users[$uid_string] = $name;
+            }
+        }
+        return $users;
+    }
 }

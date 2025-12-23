@@ -660,4 +660,18 @@ class Employees_model extends CI_Model
         $this->db->where('user_id', $id);
         $this->db->delete('xin_employees');
     }
+    public function update_record($data, $id)
+    {
+        $this->db->where('user_id', $id);
+        if ($this->db->update('xin_employees', $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function get_total_employees()
+    {
+        $query = $this->db->get("xin_employees");
+        return $query->num_rows();
+    }
 }

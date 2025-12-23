@@ -473,4 +473,16 @@ class Timesheet_model extends CI_Model
             return false;
         }
     }
+    public function check_existing_attendance($employee_id, $date, $time)
+    {
+        $this->db->where('employee_id', $employee_id);
+        $this->db->where('attendance_date', $date);
+        $this->db->where('clock_in', $time);
+        return $this->db->get('xin_attendance_time');
+    }
+
+    public function add_employee_attendance_batch($data)
+    {
+        return $this->db->insert_batch('xin_attendance_time', $data);
+    }
 }

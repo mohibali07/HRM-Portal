@@ -18,6 +18,15 @@ class Zkteco extends CI_Controller
         $this->load->model('Xin_model');
         $this->load->library('Zkteco_lib');
 
+        // Load language file
+        $this->load->helper('language');
+        $siteLang = $this->session->userdata('site_lang');
+        if ($siteLang) {
+            $this->lang->load('workablezone', $siteLang);
+        } else {
+            $this->lang->load('workablezone', 'english');
+        }
+
         // Check if user is logged in
         $session = $this->session->userdata('username');
         if (empty($session)) {
@@ -283,7 +292,8 @@ class Zkteco extends CI_Controller
                     $check_out = (count($punches) > 1) ? date('H:i:s', end($punches)) : "";
 
                     $all_punches_str = implode(', ', array_map(function ($t) {
-                        return date('H:i', $t); }, $punches));
+                        return date('H:i', $t);
+                    }, $punches));
 
                     $status = 'Present';
                     if (empty($check_out)) {

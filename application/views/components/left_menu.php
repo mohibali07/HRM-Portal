@@ -8,16 +8,10 @@ if (!is_null($role_user)) {
   $role_resources_ids = explode(',', 0);
 }
 $designation_info = $this->Xin_model->read_designation_info($user_info[0]->designation_id);
-
-
 ?>
 <!-- menu start-->
 
 <div class="site-sidebar">
-  <div style="background: #ff0; color: #000; padding: 10px; position: fixed; top: 0; left: 0; z-index: 99999;">
-    DEBUG: Role ID: <?php echo isset($role_user[0]->role_id) ? $role_user[0]->role_id : 'NULL'; ?> <br>
-    Resources: <?php echo isset($role_resources_ids) ? implode(',', $role_resources_ids) : 'NULL'; ?>
-  </div>
   <div class="custom-scroll custom-scroll-light">
     <ul class="sidebar-menu">
       <?php
@@ -27,7 +21,8 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
       <li class="menu-title"><?php echo $this->lang->line('dashboard_main'); ?></li>
       <li> <a href="<?php echo site_url('dashboard'); ?>" class="waves-effect waves-light"> <span class="s-icon"><i
               class="fa fa-home"></i></span> <span
-            class="s-text"><?php echo $this->lang->line('dashboard_title'); ?></span> </a> </li>
+            class="s-text"><?php echo $this->lang->line('dashboard_title'); ?></span>
+        </a> </li>
       <?php if (in_array('1', $role_resources_ids) || in_array('3', $role_resources_ids) || in_array('4', $role_resources_ids) || in_array('5', $role_resources_ids) || in_array('6', $role_resources_ids) || in_array('7', $role_resources_ids) || in_array('8', $role_resources_ids) || in_array('9', $role_resources_ids) || in_array('10', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li class="with-sub"> <a href="javascript:void(0);" class="waves-effect  waves-light"> <span class="s-caret"><i
                 class="fa fa-angle-down"></i></span> <span class="s-icon"><i class="fa fa-building-o"></i></span> <span
@@ -216,7 +211,8 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
       <?php if (in_array('7', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li> <a href="<?php echo site_url('project'); ?>" class="waves-effect waves-light"> <span class="s-icon"><i
                 class="ti-layers-alt"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_projects'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_projects'); ?></span>
+          </a> </li>
       <?php } ?>
       <?php if (in_array('33', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li> <a href="<?php echo site_url('timesheet/tasks'); ?>" class="waves-effect waves-light"> <span
@@ -227,7 +223,8 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
       <?php if (in_array('19', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li> <a href="<?php echo site_url('tickets'); ?>" class="waves-effect waves-light"> <span class="s-icon"><i
                 class="fa fa-ticket"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_tickets'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_tickets'); ?></span>
+          </a> </li>
       <?php } ?>
       <?php if (in_array('43', $role_resources_ids) || in_array('45', $role_resources_ids) || in_array('46', $role_resources_ids) || in_array('47', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li class="with-sub"> <a href="javascript:void(0);" class="waves-effect  waves-light"> <span class="s-caret"><i
@@ -382,18 +379,25 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
           </li>
         <?php } ?>
       <?php } ?>
-            <?php if (!is_null($role_user) && $user_info[0]->user_role_id == 1) { ?>
+      <?php if (!is_null($role_user) && $user_info[0]->user_role_id == 1) { ?>
         <li class="menu-title"><?php echo $this->lang->line('left_more'); ?></li>
       <?php } ?>
       <?php if (in_array('53', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li> <a href="<?php echo site_url(); ?>settings/" class="waves-effect waves-light"> <span class="s-icon"><i
                 class="ti-settings"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_settings'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_settings'); ?></span>
+          </a> </li>
+      <?php } ?>
+      <?php if (in_array('53', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
+        <li> <a href="<?php echo site_url(); ?>zkteco/settings" class="waves-effect waves-light"> <span class="s-icon"><i
+                class="fa fa-clock-o"></i></span> <span class="s-text">ZKTeco Settings</span>
+          </a> </li>
       <?php } ?>
       <?php if (in_array('54', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li> <a href="<?php echo site_url(); ?>settings/constants" class="waves-effect waves-light"> <span
               class="s-icon"><i class="ti-menu"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_constants'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_constants'); ?></span> </a>
+        </li>
       <?php } ?>
       <?php if (in_array('56', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li> <a href="<?php echo site_url(); ?>settings/database_backup/" class="waves-effect waves-light"> <span
@@ -405,11 +409,7 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
               class="s-icon"><i class="fa fa-envelope-o"></i></span> <span
               class="s-text"><?php echo $this->lang->line('left_email_templates'); ?></span> </a> </li>
       <?php } ?>
-      <?php if ($user_info[0]->user_role_id == 1) { ?>
-        <li> <a href="<?php echo site_url(); ?>zkteco" class="waves-effect waves-light"> <span class="s-icon"><i
-                class="fa fa-clock-o"></i></span> <span
-              class="s-text">ZKTeco Integration</span> </a> </li>
-      <?php } ?>
+
       <?php if ($user_info[0]->user_role_id != 1) { ?>
         <li> <a href="<?php echo site_url(); ?>employee/attendance/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-clock-o"></i></span> <span
@@ -419,16 +419,19 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
           </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/awards/" class="waves-effect waves-light"> <span class="s-icon"><i
                 class="fa fa-trophy"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_awards'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_awards'); ?></span>
+          </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/tickets/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-ticket"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_tickets'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_tickets'); ?></span>
+          </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/tasks/" class="waves-effect waves-light"> <span class="s-icon"><i
                 class="fa fa-list"></i></span> <span class="s-text"><?php echo $this->lang->line('left_tasks'); ?></span>
           </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/projects/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-archive"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_projects'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_projects'); ?></span>
+          </a> </li>
         <li class="with-sub"> <a href="javascript:void(0);" class="waves-effect  waves-light"> <span class="s-caret"><i
                 class="fa fa-angle-down"></i></span> <span class="s-icon"><i class="fa fa-calculator"></i></span> <span
               class="s-text"><?php echo $this->lang->line('left_payroll'); ?></span> </a>
@@ -452,13 +455,16 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
               class="s-text"><?php echo $this->lang->line('left_announcements'); ?></span> </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/performance/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-edit"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_performance'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_performance'); ?></span>
+          </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/transfer/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-refresh"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_transfers'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_transfers'); ?></span>
+          </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/promotion/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-star-o"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_promotions'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_promotions'); ?></span>
+          </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/complaints/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-exclamation-circle"></i></span> <span
               class="s-text"><?php echo $this->lang->line('left_complaints'); ?></span> </a> </li>
@@ -467,7 +473,8 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
               class="s-text"><?php echo $this->lang->line('left_warnings'); ?></span> </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/travels/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-plane"></i></span> <span
-              class="s-text"><?php echo $this->lang->line('left_travels'); ?></span> </a> </li>
+              class="s-text"><?php echo $this->lang->line('left_travels'); ?></span>
+          </a> </li>
         <li> <a href="<?php echo site_url(); ?>employee/office_shift/" class="waves-effect waves-light"> <span
               class="s-icon"><i class="fa fa-history"></i></span> <span
               class="s-text"><?php echo $this->lang->line('left_office_shift'); ?></span> </a> </li>
@@ -480,7 +487,8 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
       <?php } ?>
       <li> <a href="<?php echo site_url(); ?>logout" class="waves-effect waves-light"> <span class="s-icon"><i
               class="fa fa-sign-out"></i></span> <span
-            class="s-text"><?php echo $this->lang->line('left_logout'); ?></span> </a> </li>
+            class="s-text"><?php echo $this->lang->line('left_logout'); ?></span>
+        </a> </li>
       <?php ?>
     </ul>
   </div>

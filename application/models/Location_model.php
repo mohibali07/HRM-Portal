@@ -65,4 +65,9 @@ class Location_model extends CI_Model
         $query = $this->db->get("xin_office_location");
         return $query->result();
     }
+
+    public function all_office_locations()
+    {
+        return $this->all_locations();
+    }
 }

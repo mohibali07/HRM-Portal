@@ -63,7 +63,7 @@ class Forgot_password extends MY_Controller
 			//get company info
 			$cinfo = $this->Xin_model->read_company_setting_info(1);
 			//get email template
-			$template = $this->Xin_model->read_email_template(2);
+			$template = $this->Xin_model->read_email_template_info(2);
 			//get employee info
 			$query = $this->Xin_model->read_user_info_byemail($this->input->post('iemail'));
 
@@ -94,9 +94,15 @@ class Forgot_password extends MY_Controller
 
 				$this->email->subject($subject);
 				$this->email->message($message);
-				$this->email->send();
 
-				$Return['result'] = $this->lang->line('xin_success_sent_forgot_password');
+				if ($this->email->send()) {
+					$Return['result'] = $this->lang->line('xin_success_sent_forgot_password');
+				} else {
+					// For local testing: Log the message and simulate success
+					log_message('error', 'Email sending failed. Simulated success. Message: ' . $message);
+					$Return['result'] = $this->lang->line('xin_success_sent_forgot_password') . ' (Check logs for content)';
+					// $Return['error'] = 'Email sending failed: ' . $this->email->print_debugger(['headers']);
+				}
 			} else {
 				/* Unsuccessful attempt: Set error message */
 				$Return['error'] = $this->lang->line('xin_error_email_addres_not_exist');

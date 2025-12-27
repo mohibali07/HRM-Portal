@@ -238,6 +238,7 @@
 </script>
 <?php $js_file = (isset($path_url) && $path_url != '') ? $path_url : 'dashboard'; ?>
 <script type="text/javascript" src="<?php echo base_url() . 'skin/js_module/' . $js_file . '.js'; ?>"></script>
+<?php /* zkteco_settings.js already loaded via $js_file variable */ ?>
 <script type="text/javascript" src="<?php echo base_url() . 'skin/js_module/set_clocking.js'; ?>"></script>
 <script type="text/javascript" src="<?php echo base_url() . 'skin/js_module/custom.js'; ?>"></script>
 <?php if ($this->router->fetch_method() == 'task_details' || $this->router->fetch_class() == 'project') { ?>

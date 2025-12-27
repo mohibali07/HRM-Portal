@@ -146,6 +146,10 @@ $(document).ready(function(){
 					$('#iemail').val(''); // To reset form fields
 					$('.save').prop('disabled', false);
 				}
+			},
+			error: function() {
+				toastr.error("An error occurred. Please try again.");
+				$('.save').prop('disabled', false);
 			}
 		});
 	});

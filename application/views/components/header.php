@@ -338,7 +338,7 @@ if ($system[0]->system_skin == 'skin-default') {
               <?php $leave_notifications = $this->Xin_model->get_last_leave_applications(); ?>
               <?php if (count($leave_notifications) > 0) { ?>
                 <span class="tag tag-danger"
-                  style="position: absolute; top: 10px; right: 0px; padding: 2px 5px; font-size: 10px;"><?php echo count($leave_notifications); ?></span>
+                  style="position: absolute; top: 0px; right: 0px; padding: 2px 5px; font-size: 10px; border-radius: 50%;"><?php echo count($leave_notifications); ?></span>
               <?php } ?>
               <span class="hidden-md-up ml-1"><?php echo $this->lang->line('header_notifications'); ?></span> </a>
             <div

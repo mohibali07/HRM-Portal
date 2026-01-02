@@ -270,7 +270,6 @@ class xin_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('xin_company_info');
 		$this->db->where($condition);
-		$this->db->limit(1);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0) {
@@ -303,7 +302,7 @@ class xin_model extends CI_Model
 	// get last 5 applications
 	public function get_last_leave_applications()
 	{
-		$query = $this->db->query("SELECT * from xin_leave_applications order by leave_id desc limit 5");
+		$query = $this->db->query("SELECT * from xin_leave_applications where status = '1' order by leave_id desc");
 		return $query->result();
 	}
 

@@ -388,11 +388,6 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
               class="s-text"><?php echo $this->lang->line('left_settings'); ?></span>
           </a> </li>
       <?php } ?>
-      <?php if (in_array('53', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
-        <li> <a href="<?php echo site_url(); ?>zkteco/settings" class="waves-effect waves-light"> <span class="s-icon"><i
-                class="fa fa-clock-o"></i></span> <span class="s-text">ZKTeco Settings</span>
-          </a> </li>
-      <?php } ?>
       <?php if (in_array('54', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li> <a href="<?php echo site_url(); ?>settings/constants" class="waves-effect waves-light"> <span
               class="s-icon"><i class="ti-menu"></i></span> <span

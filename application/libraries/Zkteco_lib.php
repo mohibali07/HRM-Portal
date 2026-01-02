@@ -152,9 +152,9 @@ class Zkteco_lib
         $final = trim($str);
 
         // Log interesting cases for debugging
-        if (count($this->debug_logs) < 20 && $original_hex !== bin2hex($final) && $final !== '') {
-            $this->debug_logs[] = "CleanString: Hex: $original_hex -> Final: $final";
-        }
+        // if (count($this->debug_logs) < 20 && $original_hex !== bin2hex($final) && $final !== '') {
+        //     $this->debug_logs[] = "CleanString: Hex: $original_hex -> Final: $final";
+        // }
 
         return $final;
     }
@@ -169,7 +169,7 @@ class Zkteco_lib
         $cleaned = preg_replace('/[^a-zA-Z0-9]/', '', $str);
 
         if ($str !== $cleaned && count($this->debug_logs) < 25) {
-            $this->debug_logs[] = "CleanUserID: '$str' -> '$cleaned'";
+            // $this->debug_logs[] = "CleanUserID: '$str' -> '$cleaned'";
         }
 
         return $cleaned;
@@ -321,20 +321,22 @@ class Zkteco_lib
                     $row['id'] = $this->cleanUserID($rec['user_id']);
 
                     // Fallback: If ID is empty, use the internal UID
-                    if (empty($row['id'])) {
+                    if (empty($row['id']) && $rec['uid'] > 0) {
                         $row['id'] = (string) $rec['uid'];
                     }
 
-                    // Debug: Log raw hex for the first few records to analyze format
-                    if (count($logs) < 5) {
-                        $this->debug_logs[] = "Record " . count($logs) . " Raw Hex: " . bin2hex($u);
-                        $this->debug_logs[] = "Parsed UID: " . $rec['uid'] . ", UserID: '" . $rec['user_id'] . "' -> '" . $row['id'] . "'";
+                    $row['state'] = $rec['status'];
+
+                    // FIX: Timestamp is at offset 32, not 27
+                    // Format seems to be: uid(2) + user_id(24) + status(1) + reserved(4) + punch(1) + time(4) + reserved(4)
+                    $time_bytes = substr($u, 32, 4);
+                    $row['timestamp'] = $this->decodeTime($time_bytes);
+
+                    // Debug: Log if timestamp is invalid (null)
+                    if ($row['timestamp'] === null && count($this->debug_logs) < 20) {
+                        $this->debug_logs[] = "Invalid Timestamp Record " . count($logs) . " Hex: " . bin2hex($u);
                     }
 
-                    $row['state'] = $rec['status'];
-                    // Extract time bytes directly (4 bytes starting at offset 27: 2+24+1)
-                    $time_bytes = substr($u, 27, 4);
-                    $row['timestamp'] = $this->decodeTime($time_bytes);
                     $row['type'] = $rec['punch'];
                 } elseif ($record_size == 16) {
                     // Format: Vuser_id(4) + a4time(4) + Cstatus(1) + Cpunch(1) + a2reserved(2) + Vworkcode(4) = 16

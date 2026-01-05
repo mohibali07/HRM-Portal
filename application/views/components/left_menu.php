@@ -165,6 +165,9 @@ $designation_info = $this->Xin_model->read_designation_info($user_info[0]->desig
           </ul>
         </li>
       <?php } ?>
+      <li> <a href="<?php echo site_url('ZkAttendance'); ?>" class="waves-effect waves-light"> <span class="s-icon"><i
+              class="fa fa-calendar-check-o"></i></span> <span class="s-text">Attendance App</span>
+        </a> </li>
       <?php if (in_array('36', $role_resources_ids) || in_array('38', $role_resources_ids) || in_array('39', $role_resources_ids) || in_array('40', $role_resources_ids) || in_array('41', $role_resources_ids) || in_array('42', $role_resources_ids) || $user_info[0]->user_role_id == 1) { ?>
         <li class="with-sub"> <a href="javascript:void(0);" class="waves-effect  waves-light"> <span class="s-caret"><i
                 class="fa fa-angle-down"></i></span> <span class="s-icon"><i class="fa fa-calculator"></i></span> <span

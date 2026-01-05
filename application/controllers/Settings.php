@@ -18,6 +18,7 @@ class Settings extends MY_Controller
 		$this->load->model("Employee_exit_model");
 		$this->load->model("Xin_model");
 		$this->load->model("Employees_model");
+		$this->load->model("Company_model");//that's it
 	}
 
 	/*Function to set JSON output*/
@@ -3278,4 +3279,146 @@ class Settings extends MY_Controller
 		}
 	}
 
+	// Validate and add info in database
+	public function company_type_info()
+	{
+
+		if ($this->input->post('type') == 'company_type_info') {
+			/* Define return | here result is used to return user data and error for error message */
+			$Return = array('result' => '', 'error' => '');
+
+			/* Server side PHP input validation */
+			if ($this->input->post('name') === '') {
+				$Return['error'] = $this->lang->line('xin_error_name_field');
+			}
+
+			if ($Return['error'] != '') {
+				$this->output($Return);
+			}
+
+			$data = array(
+				'name' => $this->input->post('name'),
+				'created_at' => date('d-m-Y h:i:s')
+			);
+			$result = $this->Company_model->add_company_type($data);
+			if ($result == TRUE) {
+				$Return['result'] = $this->lang->line('xin_success_company_type_added');
+			} else {
+				$Return['error'] = $this->lang->line('xin_error_msg');
+			}
+			$this->output($Return);
+			exit;
+		}
+	}
+
+	public function company_type_list()
+	{
+
+		$data['title'] = $this->Xin_model->site_title();
+		$session = $this->session->userdata('username');
+		if (!empty($session)) {
+			$this->load->view("settings/constants", $data);
+		} else {
+			redirect('');
+		}
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
+
+
+		$company_types = $this->Company_model->get_company_types();
+
+		$data = array();
+
+		foreach ($company_types as $r) {
+
+			$data[] = array(
+				'<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_edit') . '"><button type="button" class="btn btn-secondary btn-sm m-b-0-0 waves-effect waves-light"  data-toggle="modal" data-target=".edit-modal-data"  data-field_id="' . $r->type_id . '" data-data="ed_company_type" data-type="ed_company_type"><i class="fa fa-pencil-square-o"></i></button></span><span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_delete') . '"><button type="button" class="btn btn-danger btn-sm m-b-0-0 waves-effect waves-light delete" data-toggle="modal" data-target=".delete-modal" data-record-id="' . $r->type_id . '" data-token_type="company_type"><i class="fa fa-trash-o"></i></button></span>',
+				$r->name
+			);
+		}
+
+		$output = array(
+			"draw" => $draw,
+			"recordsTotal" => count($company_types),
+			"recordsFiltered" => count($company_types),
+			"data" => $data
+		);
+		echo json_encode($output);
+		exit();
+	}
+
+	public function delete_company_type()
+	{
+		if ($this->input->post('type') == 'delete_record') {
+			/* Define return | here result is used to return user data and error for error message */
+			$Return = array('result' => '', 'error' => '');
+			$id = $this->input->post('id');
+			$token_type = $this->input->post('token_type');
+
+			if ($token_type == 'company_type') {
+				$this->Company_model->delete_company_type($id);
+				if (isset($id)) {
+					$Return['result'] = $this->lang->line('xin_success_company_type_deleted');
+				} else {
+					$Return['error'] = $this->lang->line('xin_error_msg');
+				}
+				$this->output($Return);
+			}
+		}
+	}
+
+	public function read_company_type()
+	{
+		$data['title'] = $this->Xin_model->site_title();
+		$id = $this->input->get('field_id');
+		$result = $this->Company_model->read_company_type_information($id);
+		$data = array(
+			'type_id' => $result[0]->type_id,
+			'name' => $result[0]->name,
+		);
+		$session = $this->session->userdata('username');
+		if (!empty($session)) {
+			$this->load->view('settings/dialog_constants', $data);
+		} else {
+			redirect('');
+		}
+	}
+
+	// Validate and update info in database
+	public function update_company_type()
+	{
+
+		if ($this->input->post('edit_type') == 'company_type') {
+
+			$id = $this->uri->segment(3);
+
+			/* Define return | here result is used to return user data and error for error message */
+			$Return = array('result' => '', 'error' => '');
+
+			/* Server side PHP input validation */
+			if ($this->input->post('name') === '') {
+				$Return['error'] = $this->lang->line('xin_error_name_field');
+			}
+
+			if ($Return['error'] != '') {
+				$this->output($Return);
+			}
+
+			$data = array(
+				'name' => $this->input->post('name')
+			);
+
+			$result = $this->Company_model->update_company_type_record($data, $id);
+
+			if ($result == TRUE) {
+				$Return['result'] = $this->lang->line('xin_success_company_type_updated');
+			} else {
+				$Return['error'] = $this->lang->line('xin_error_msg');
+			}
+			$this->output($Return);
+			exit;
+		}
+	}
 }

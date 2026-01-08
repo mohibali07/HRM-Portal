@@ -16,7 +16,8 @@ if (isset($_GET['jd']) && isset($_GET['field_id']) && $_GET['data'] == 'ed_docum
 		<input type="hidden" name="ext_name" value="<?php echo $row[0]->document_type; ?>">
 		<div class="modal-body">
 			<div class="form-group">
-				<label for="name" class="form-control-label"><?php echo $this->lang->line('xin_e_details_dtype'); ?>:</label>
+				<label for="name"
+					class="form-control-label"><?php echo $this->lang->line('xin_e_details_dtype'); ?>:</label>
 				<input type="text" class="form-control" name="name"
 					placeholder="<?php echo $this->lang->line('xin_e_details_dtype'); ?>"
 					value="<?php echo $row[0]->document_type; ?>">
@@ -1049,12 +1050,14 @@ if (isset($_GET['jd']) && isset($_GET['field_id']) && $_GET['data'] == 'ed_docum
 																	<div class="form-group">
 																		<label for="name"><?php echo $this->lang->line('xin_currency_name'); ?></label>
 																		<input type="text" class="form-control" name="name"
-																			placeholder="<?php echo $this->lang->line('xin_currency_name'); ?>" value="<?php echo $row[0]->name; ?>">
+																			placeholder="<?php echo $this->lang->line('xin_currency_name'); ?>"
+																			value="<?php echo $row[0]->name; ?>">
 																	</div>
 																	<div class="form-group">
 																		<label for="name"><?php echo $this->lang->line('xin_currency_code'); ?></label>
 																		<input type="text" class="form-control" name="code"
-																			placeholder="<?php echo $this->lang->line('xin_currency_code'); ?>" value="<?php echo $row[0]->code; ?>">
+																			placeholder="<?php echo $this->lang->line('xin_currency_code'); ?>"
+																			value="<?php echo $row[0]->code; ?>">
 																	</div>
 																	<div class="form-group">
 																		<label for="name"><?php echo $this->lang->line('xin_currency_symbol'); ?></label>

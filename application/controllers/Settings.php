@@ -1360,7 +1360,7 @@ class Settings extends MY_Controller
 
 		$data = array();
 
-		foreach ($contract_type->result() as $r) {
+		foreach ($contract_type as $r) {
 
 			$data[] = array(
 				'<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_edit') . '"><button type="button" class="btn btn-secondary btn-sm m-b-0-0 waves-effect waves-light" data-toggle="modal" data-target=".edit_setting_datail" data-field_id="' . $r->contract_type_id . '" data-field_type="contract_type"><i class="fa fa-pencil-square-o"></i></button></span><span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_delete') . '"><button type="button" class="btn btn-danger btn-sm m-b-0-0 waves-effect waves-light delete" data-toggle="modal" data-target=".delete-modal" data-record-id="' . $r->contract_type_id . '" data-token_type="contract_type"><i class="fa fa-trash-o"></i></button></span>',
@@ -1370,8 +1370,8 @@ class Settings extends MY_Controller
 
 		$output = array(
 			"draw" => $draw,
-			"recordsTotal" => $contract_type->num_rows(),
-			"recordsFiltered" => $contract_type->num_rows(),
+			"recordsTotal" => count($contract_type),
+			"recordsFiltered" => count($contract_type),
 			"data" => $data
 		);
 
@@ -3279,38 +3279,7 @@ class Settings extends MY_Controller
 		}
 	}
 
-	// Validate and add info in database
-	public function company_type_info()
-	{
-
-		if ($this->input->post('type') == 'company_type_info') {
-			/* Define return | here result is used to return user data and error for error message */
-			$Return = array('result' => '', 'error' => '');
-
-			/* Server side PHP input validation */
-			if ($this->input->post('name') === '') {
-				$Return['error'] = $this->lang->line('xin_error_name_field');
-			}
-
-			if ($Return['error'] != '') {
-				$this->output($Return);
-			}
-
-			$data = array(
-				'name' => $this->input->post('name'),
-				'created_at' => date('d-m-Y h:i:s')
-			);
-			$result = $this->Company_model->add_company_type($data);
-			if ($result == TRUE) {
-				$Return['result'] = $this->lang->line('xin_success_company_type_added');
-			} else {
-				$Return['error'] = $this->lang->line('xin_error_msg');
-			}
-			$this->output($Return);
-			exit;
-		}
-	}
-
+	// Company Type > list
 	public function company_type_list()
 	{
 
@@ -3327,62 +3296,83 @@ class Settings extends MY_Controller
 		$length = intval($this->input->get("length"));
 
 
-		$company_types = $this->Company_model->get_company_types();
+		$constant = $this->Xin_model->get_company_types();
 
 		$data = array();
 
-		foreach ($company_types as $r) {
+		foreach ($constant->result() as $r) {
 
 			$data[] = array(
-				'<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_edit') . '"><button type="button" class="btn btn-secondary btn-sm m-b-0-0 waves-effect waves-light"  data-toggle="modal" data-target=".edit-modal-data"  data-field_id="' . $r->type_id . '" data-data="ed_company_type" data-type="ed_company_type"><i class="fa fa-pencil-square-o"></i></button></span><span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_delete') . '"><button type="button" class="btn btn-danger btn-sm m-b-0-0 waves-effect waves-light delete" data-toggle="modal" data-target=".delete-modal" data-record-id="' . $r->type_id . '" data-token_type="company_type"><i class="fa fa-trash-o"></i></button></span>',
-				$r->name
+				'<span data-toggle="tooltip" data-placement="top" title="' . $this->lang->line('xin_edit') . '"><button type="button"
+        class="btn btn-secondary btn-sm m-b-0-0 waves-effect waves-light" data-toggle="modal"
+        data-target=".edit_setting_datail" data-field_id="' . $r->company_type_id . '" data-field_type="company_type"><i
+            class="fa fa-pencil-square-o"></i></button></span><span data-toggle="tooltip" data-placement="top"
+    title="' . $this->lang->line('xin_delete') . '"><button type="button"
+        class="btn btn-danger btn-sm m-b-0-0 waves-effect waves-light delete" data-toggle="modal"
+        data-target=".delete-modal" data-record-id="' . $r->company_type_id . '" data-token_type="company_type"><i
+            class="fa fa-trash-o"></i></button></span>',
+				$r->name,
 			);
 		}
 
 		$output = array(
 			"draw" => $draw,
-			"recordsTotal" => count($company_types),
-			"recordsFiltered" => count($company_types),
+			"recordsTotal" => $constant->num_rows(),
+			"recordsFiltered" => $constant->num_rows(),
 			"data" => $data
 		);
+
 		echo json_encode($output);
 		exit();
 	}
 
-	public function delete_company_type()
+	// Validate and add info in database
+	public function company_type_info()
 	{
-		if ($this->input->post('type') == 'delete_record') {
+
+		if ($this->input->post('type') == 'company_type_info') {
 			/* Define return | here result is used to return user data and error for error message */
 			$Return = array('result' => '', 'error' => '');
-			$id = $this->input->post('id');
-			$token_type = $this->input->post('token_type');
 
-			if ($token_type == 'company_type') {
-				$this->Company_model->delete_company_type($id);
-				if (isset($id)) {
-					$Return['result'] = $this->lang->line('xin_success_company_type_deleted');
-				} else {
-					$Return['error'] = $this->lang->line('xin_error_msg');
-				}
+			/* Server side PHP input validation */
+			if ($this->input->post('company_type') === '') {
+				$Return['error'] = $this->lang->line('xin_employee_error_company_type');
+			}
+
+			if ($Return['error'] != '') {
 				$this->output($Return);
 			}
+
+			$data = array(
+				'name' => $this->input->post('company_type'),
+				'created_at' => date('d-m-Y h:i:s')
+			);
+			$result = $this->Xin_model->add_company_type($data);
+			if ($result == TRUE) {
+				$Return['result'] = $this->lang->line('xin_success_company_type_added');
+			} else {
+				$Return['error'] = $this->lang->line('xin_error_msg');
+			}
+			$this->output($Return);
+			exit;
 		}
 	}
 
-	public function read_company_type()
+	// delete constant record > table
+	public function delete_company_type()
 	{
-		$data['title'] = $this->Xin_model->site_title();
-		$id = $this->input->get('field_id');
-		$result = $this->Company_model->read_company_type_information($id);
-		$data = array(
-			'type_id' => $result[0]->type_id,
-			'name' => $result[0]->name,
-		);
-		$session = $this->session->userdata('username');
-		if (!empty($session)) {
-			$this->load->view('settings/dialog_constants', $data);
-		} else {
-			redirect('');
+
+		if ($this->input->post('type') == 'delete_record') {
+			/* Define return | here result is used to return user data and error for error message */
+			$Return = array('result' => '', 'error' => '');
+			$id = $this->uri->segment(3);
+			$result = $this->Xin_model->delete_company_type_record($id);
+			if (isset($id)) {
+				$Return['result'] = $this->lang->line('xin_success_company_type_deleted');
+			} else {
+				$Return['error'] = $this->lang->line('xin_error_msg');
+			}
+			$this->output($Return);
 		}
 	}
 
@@ -3390,7 +3380,7 @@ class Settings extends MY_Controller
 	public function update_company_type()
 	{
 
-		if ($this->input->post('edit_type') == 'company_type') {
+		if ($this->input->post('type') == 'edit_record') {
 
 			$id = $this->uri->segment(3);
 
@@ -3399,7 +3389,7 @@ class Settings extends MY_Controller
 
 			/* Server side PHP input validation */
 			if ($this->input->post('name') === '') {
-				$Return['error'] = $this->lang->line('xin_error_name_field');
+				$Return['error'] = $this->lang->line('xin_employee_error_company_type');
 			}
 
 			if ($Return['error'] != '') {
@@ -3410,7 +3400,7 @@ class Settings extends MY_Controller
 				'name' => $this->input->post('name')
 			);
 
-			$result = $this->Company_model->update_company_type_record($data, $id);
+			$result = $this->Xin_model->update_company_type_record($data, $id);
 
 			if ($result == TRUE) {
 				$Return['result'] = $this->lang->line('xin_success_company_type_updated');
@@ -3420,5 +3410,98 @@ class Settings extends MY_Controller
 			$this->output($Return);
 			exit;
 		}
+	}
+
+	// Populate Default Library (Countries & Currencies)
+	public function populate_library()
+	{
+		$session = $this->session->userdata('username');
+		if (empty($session)) {
+			redirect('');
+		}
+
+		// 1. Countries Data
+		$countries = array(
+			array('US', 'United States'),
+			array('GB', 'United Kingdom'),
+			array('CA', 'Canada'),
+			array('AU', 'Australia'),
+			array('DE', 'Germany'),
+			array('FR', 'France'),
+			array('IN', 'India'),
+			array('PK', 'Pakistan'),
+			array('CN', 'China'),
+			array('JP', 'Japan'),
+			array('BR', 'Brazil'),
+			array('RU', 'Russia'),
+			array('IT', 'Italy'),
+			array('ES', 'Spain'),
+			array('MX', 'Mexico'),
+			array('ID', 'Indonesia'),
+			array('TR', 'Turkey'),
+			array('SA', 'Saudi Arabia'),
+			array('ZA', 'South Africa'),
+			array('AE', 'United Arab Emirates'),
+			array('AR', 'Argentina'),
+			array('MY', 'Malaysia'),
+			array('TH', 'Thailand'),
+			array('KR', 'South Korea'),
+			array('NG', 'Nigeria'),
+			array('EG', 'Egypt'),
+			array('BD', 'Bangladesh'),
+			array('VN', 'Vietnam'),
+			array('PH', 'Philippines'),
+			array('IR', 'Iran')
+		);
+
+		foreach ($countries as $country) {
+			$data = array(
+				'country_code' => $country[0],
+				'country_name' => $country[1],
+				'country_flag' => ''
+			);
+			// Check if exists
+			$this->db->where('country_name', $country[1]);
+			$query = $this->db->get('xin_countries');
+			if ($query->num_rows() == 0) {
+				$this->db->insert('xin_countries', $data);
+			}
+		}
+
+		// 2. Currencies Data
+		$currencies = array(
+			array('US Dollar', 'USD', '$'),
+			array('Pound Sterling', 'GBP', '£'),
+			array('Euro', 'EUR', '€'),
+			array('Australian Dollar', 'AUD', '$'),
+			array('Canadian Dollar', 'CAD', '$'),
+			array('Japanese Yen', 'JPY', '¥'),
+			array('Indian Rupee', 'INR', '₹'),
+			array('Pakistani Rupee', 'PKR', '₨'),
+			array('Chinese Yuan', 'CNY', '¥'),
+			array('Brazilian Real', 'BRL', 'R$'),
+			array('Russian Ruble', 'RUB', '₽'),
+			array('South African Rand', 'ZAR', 'R'),
+			array('Saudi Riyal', 'SAR', '﷼'),
+			array('UAE Dirham', 'AED', 'د.إ'),
+			array('Turkish Lira', 'TRY', '₺')
+		);
+
+		foreach ($currencies as $currency) {
+			$data = array(
+				'name' => $currency[0],
+				'code' => $currency[1],
+				'symbol' => $currency[2]
+			);
+			// Check if exists
+			$this->db->where('code', $currency[1]);
+			$query = $this->db->get('xin_currencies');
+			if ($query->num_rows() == 0) {
+				$this->db->insert('xin_currencies', $data);
+			}
+		}
+
+		$this->session->set_flashdata('response', 'Library Populated Successfully!');
+		redirect('settings/constants');
 	}
 }

@@ -565,7 +565,8 @@ class xin_model extends CI_Model
 	// get all table rows 
 	public function get_contract_types()
 	{
-		return $query = $this->db->query("SELECT * from xin_contract_type");
+		$query = $this->db->query("SELECT * from xin_contract_type");
+		return $query->result();
 	}
 
 	// get all table rows 

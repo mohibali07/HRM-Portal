@@ -60,7 +60,7 @@ class company_model extends CI_Model
 	{
 		$this->db->where('company_id', $id);
 		$this->db->delete('xin_companies');
-
+		return true;
 	}
 
 	// Function to update record in table

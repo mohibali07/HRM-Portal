@@ -119,7 +119,8 @@ class ZkAttendance extends MY_Controller
             }
 
             // Re-encode to ensure clean output, handling invalid UTF-8
-            echo json_encode(['success' => true, 'users' => $users], JSON_INVALID_UTF8_SUBSTITUTE);
+            $options = defined('JSON_INVALID_UTF8_SUBSTITUTE') ? JSON_INVALID_UTF8_SUBSTITUTE : 0;
+            echo json_encode(['success' => true, 'users' => $users], $options);
         } else {
             echo json_encode(['success' => false, 'message' => 'No users found in cache. Please sync first.']);
         }
@@ -131,9 +132,20 @@ class ZkAttendance extends MY_Controller
         ini_set('memory_limit', '-1');
         set_time_limit(0);
 
-        $start_date = $this->input->get('start_date') ?? date('Y-m-d');
-        $end_date = $this->input->get('end_date') ?? date('Y-m-d');
-        $filter_user_id = $this->input->get('user_id') ?? '';
+        $start_date = $this->input->get('start_date');
+        if (empty($start_date)) {
+            $start_date = date('Y-m-d');
+        }
+
+        $end_date = $this->input->get('end_date');
+        if (empty($end_date)) {
+            $end_date = date('Y-m-d');
+        }
+
+        $filter_user_id = $this->input->get('user_id');
+        if (empty($filter_user_id)) {
+            $filter_user_id = '';
+        }
 
         // Validate dates
         if (!$start_date || !$end_date) {
@@ -277,7 +289,8 @@ class ZkAttendance extends MY_Controller
                 $fmtCheckIn = $checkIn ? date('h:i A', strtotime($checkIn)) : '';
                 $fmtCheckOut = $checkOut ? date('h:i A', strtotime($checkOut)) : '';
                 $fmtPunches = array_map(function ($t) {
-                    return date('h:i A', strtotime($t)); }, $punches);
+                    return date('h:i A', strtotime($t));
+                }, $punches);
                 $allPunchesStr = implode(', ', $fmtPunches);
                 $dayName = date('l', strtotime($date));
 

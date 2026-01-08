@@ -10,52 +10,84 @@
       <ul class="nav nav-4">
         <li class="nav-item nav-item-link active-link" id="config_8"> <a class="nav-link nav-tabs-link" href="#contract"
             data-config="8" data-config-block="contract" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-pencil"></i> <?php echo $this->lang->line('xin_e_details_contract_type'); ?> </a> </li>
+              class="fa fa-pencil"></i>
+            <?php echo $this->lang->line('xin_company_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_7"> <a class="nav-link nav-tabs-link" href="#qualification"
             data-config="7" data-config-block="qualification" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-graduation-cap"></i> <?php echo $this->lang->line('xin_e_details_edu_level'); ?> </a> </li>
+              class="fa fa-graduation-cap"></i>
+            <?php echo $this->lang->line('xin_e_details_edu_level'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_20"> <a class="nav-link nav-tabs-link" href="#language"
             data-config="20" data-config-block="language" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-language"></i> <?php echo $this->lang->line('xin_e_details_language'); ?> </a> </li>
+              class="fa fa-language"></i>
+            <?php echo $this->lang->line('xin_e_details_language'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_21"> <a class="nav-link nav-tabs-link" href="#skill"
             data-config="21" data-config-block="skill" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-lightbulb-o"></i> <?php echo $this->lang->line('xin_skill'); ?> </a> </li>
+              class="fa fa-lightbulb-o"></i>
+            <?php echo $this->lang->line('xin_skill'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_9"> <a class="nav-link nav-tabs-link" href="#document_type"
             data-config="9" data-config-block="document_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-file"></i> <?php echo $this->lang->line('xin_e_details_dtype'); ?></a> </li>
+              class="fa fa-file"></i>
+            <?php echo $this->lang->line('xin_e_details_dtype'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_10"> <a class="nav-link nav-tabs-link" href="#award_type"
             data-config="10" data-config-block="award_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-trophy"></i> <?php echo $this->lang->line('xin_award_type'); ?></a> </li>
+              class="fa fa-trophy"></i>
+            <?php echo $this->lang->line('xin_award_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_11"> <a class="nav-link nav-tabs-link" href="#leave_type"
             data-config="11" data-config-block="leave_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-plane"></i> <?php echo $this->lang->line('xin_leave_type'); ?></a> </li>
+              class="fa fa-plane"></i>
+            <?php echo $this->lang->line('xin_leave_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_12"> <a class="nav-link nav-tabs-link" href="#warning_type"
             data-config="12" data-config-block="warning_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-exclamation-triangle"></i> <?php echo $this->lang->line('xin_warning_type'); ?></a> </li>
+              class="fa fa-exclamation-triangle"></i>
+            <?php echo $this->lang->line('xin_warning_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_13"> <a class="nav-link nav-tabs-link" href="#termination_type"
             data-config="13" data-config-block="termination_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-remove"></i> <?php echo $this->lang->line('xin_termination_type'); ?> </a> </li>
+              class="fa fa-remove"></i>
+            <?php echo $this->lang->line('xin_termination_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_17"> <a class="nav-link nav-tabs-link" href="#expense_type"
             data-config="17" data-config-block="expense_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-bar-chart"></i> <?php echo $this->lang->line('xin_expense_type'); ?></a> </li>
+              class="fa fa-bar-chart"></i>
+            <?php echo $this->lang->line('xin_expense_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_14"> <a class="nav-link nav-tabs-link" href="#job_type"
             data-config="14" data-config-block="job_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-file-text-o"></i> <?php echo $this->lang->line('xin_job_type'); ?></a> </li>
+              class="fa fa-file-text-o"></i>
+            <?php echo $this->lang->line('xin_job_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_15"> <a class="nav-link nav-tabs-link" href="#exit_type"
             data-config="15" data-config-block="exit_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-sign-out"></i> <?php echo $this->lang->line('xin_employee_exit_type'); ?></a> </li>
+              class="fa fa-sign-out"></i>
+            <?php echo $this->lang->line('xin_employee_exit_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_18"> <a class="nav-link nav-tabs-link" href="#travel_arr_type"
             data-config="18" data-config-block="travel_arr_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-car"></i> <?php echo $this->lang->line('xin_travel_arrangement_type'); ?></a> </li>
+              class="fa fa-car"></i>
+            <?php echo $this->lang->line('xin_travel_arrangement_type'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_16"> <a class="nav-link nav-tabs-link" href="#payment_method"
             data-config="16" data-config-block="payment_method" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-money"></i> <?php echo $this->lang->line('xin_payment_methods'); ?> </a> </li>
+              class="fa fa-money"></i>
+            <?php echo $this->lang->line('xin_payment_methods'); ?>
+          </a> </li>
         <li class="nav-item nav-item-link" id="config_19"> <a class="nav-link nav-tabs-link" href="#currency_type"
             data-config="19" data-config-block="currency_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-dollar"></i> <?php echo $this->lang->line('xin_currency_type'); ?> </a> </li>
-        <li class="nav-item nav-item-link" id="config_22"> <a class="nav-link nav-tabs-link" href="#company_type"
-            data-config="22" data-config-block="company_type" data-toggle="tab" aria-expanded="true"> <i
-              class="fa fa-building"></i> <?php echo $this->lang->line('xin_company_type'); ?> </a> </li>
+              class="fa fa-dollar"></i>
+            <?php echo $this->lang->line('xin_currency_type'); ?>
+          </a> </li>
+        <li class="nav-item nav-item-link" id="config_22" style="display:none;"> <a class="nav-link nav-tabs-link"
+            href="#company_type" data-config="22" data-config-block="company_type" data-toggle="tab"
+            aria-expanded="true"> <i class="fa fa-building"></i>
+            <?php echo $this->lang->line('xin_company_type'); ?>
+          </a> </li>
       </ul>
     </div>
   </div>
@@ -63,16 +95,19 @@
     <div class="row">
       <div class="col-md-4">
         <div class="box box-block bg-white">
-          <h2><strong><?php echo $this->lang->line('xin_add_new'); ?></strong>
-            <?php echo $this->lang->line('xin_e_details_contract_type'); ?></h2>
-          <form class="m-b-1 add" id="contract_type_info" action="<?php echo site_url("settings/contract_type_info") ?>"
-            name="contract_type_info" method="post">
+          <h2><strong>
+              <?php echo $this->lang->line('xin_add_new'); ?>
+            </strong>
+            <?php echo $this->lang->line('xin_company_type'); ?>
+          </h2>
+          <form class="m-b-1 add" id="contract_type_info" action="<?php echo site_url("settings/contract_type_info") ?>
+            " name="contract_type_info" method="post">
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
               value="<?php echo $this->security->get_csrf_hash(); ?>">
             <div class="form-group">
-              <label for="name"><?php echo $this->lang->line('xin_e_details_contract_type'); ?></label>
+              <label for="name"><?php echo $this->lang->line('xin_company_type'); ?></label>
               <input type="text" class="form-control" name="contract_type"
-                placeholder="<?php echo $this->lang->line('xin_e_details_contract_type'); ?>">
+                placeholder="<?php echo $this->lang->line('xin_company_type'); ?>">
             </div>
             <button type="submit" class="btn btn-primary save"><?php echo $this->lang->line('xin_save'); ?></button>
           </form>
@@ -81,14 +116,14 @@
       <div class="col-md-8">
         <div class="box box-block bg-white">
           <h2><strong><?php echo $this->lang->line('xin_list_all'); ?></strong>
-            <?php echo $this->lang->line('xin_e_details_contract_type'); ?></h2>
+            <?php echo $this->lang->line('xin_company_type'); ?></h2>
           <div class="table-responsive" data-pattern="priority-columns">
             <table class="table table-striped table-bordered dataTable" id="xin_table_contract_type"
               style="width:100%;">
               <thead>
                 <tr>
                   <th><?php echo $this->lang->line('xin_action'); ?></th>
-                  <th><?php echo $this->lang->line('xin_e_details_contract_type'); ?></th>
+                  <th><?php echo $this->lang->line('xin_company_type'); ?></th>
                 </tr>
               </thead>
             </table>
@@ -618,6 +653,8 @@
                 placeholder="<?php echo $this->lang->line('xin_currency_symbol'); ?>">
             </div>
             <button type="submit" class="btn btn-primary save"><?php echo $this->lang->line('xin_save'); ?></button>
+            <a href="<?php echo site_url('settings/populate_library'); ?>" class="btn btn-info"><i
+                class="fa fa-database"></i> Populate Default Library</a>
           </form>
         </div>
       </div>
